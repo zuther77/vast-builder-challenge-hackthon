@@ -257,8 +257,9 @@ Filter the audited sightings and drill into per-street evidence.</p>
   }
 
   function load() {
+    var prefix = window.location.pathname.startsWith('/app') ? '/app' : '';
     var query = buildQuery();
-    fetch("/api/findings" + (query ? "?" + query : ""))
+    fetch(prefix + "/api/findings" + (query ? "?" + query : ""))
       .then(function (response) { return response.json(); })
       .then(renderResults)
       .catch(function () {

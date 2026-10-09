@@ -197,14 +197,53 @@ def filter_options():
     return cameras, streets
 
 
-def street_narrative(entry):
-    """Canned mock narrative for one street's audit section.
+_narrative_cache = {}
 
-    TODO(phase 2): replace this canned text with a W&B serverless LLM call
-    (WANDB_* env vars) over the matched captions for this street, and cache
-    by query so identical requests return identical reports.
+
+def street_narrative(entry):
+    """Generate the narrative for one street card in the audit report.
+
+    Uses Weights & Biases serverless inference if WANDB_API_KEY is present,
+    falling back to deterministic template generation with query caching.
     """
     street = entry["street"]
+    cache_key = f"{street}_{entry['total']}_{entry['risk']}"
+    if cache_key in _narrative_cache:
+        return _narrative_cache[cache_key]
+
+    wandb_key = os.environ.get("WANDB_API_KEY")
+    if wandb_key:
+        try:
+            import json
+            import urllib.request
+            prompt = (
+                f"You are a municipal traffic engineer auditing road and cycling markings on {street} in New York City. "
+                f"Data: {entry['total']} markings sighted, risk score {entry['risk']}, {entry['high_pedestrian']} high-pedestrian-exposure markings. "
+                f"Write a concise 3-sentence audit summary explaining the findings and priority recommendation."
+            )
+            req = urllib.request.Request(
+                "https://api.wandb.ai/v1/chat/completions",
+                data=json.dumps({
+                    "model": "meta-llama/llama-3.1-8b-instruct",
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 120,
+                    "temperature": 0.2,
+                }).encode("utf-8"),
+                headers={
+                    "Authorization": f"Bearer {wandb_key}",
+                    "Content-Type": "application/json",
+                },
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                text = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+                if text:
+                    _narrative_cache[cache_key] = text
+                    return text
+        except Exception:
+            pass
+
     findings = entry["findings"]
     counts = entry["counts"]
     segments = entry["segments"]
@@ -232,8 +271,6 @@ def street_narrative(entry):
                 worst["condition"].replace("_", " "),
                 worst["confidence"], worst["camera_id"],
                 worst["captured_at"], worst_suffix))
-    # Tier thresholds are per-finding average risk: a worn marking on a
-    # high-pedestrian street lands in the high tier.
     avg_risk = entry["risk"] / entry["total"] if entry["total"] else 0.0
     if avg_risk >= 22.0:
         lines.append(
@@ -248,7 +285,10 @@ def street_narrative(entry):
         lines.append(
             "Markings on this street are largely intact; no immediate "
             "action required.")
-    return " ".join(lines)
+
+    res = " ".join(lines)
+    _narrative_cache[cache_key] = res
+    return res
 
 
 def build_report(findings, person_threshold):

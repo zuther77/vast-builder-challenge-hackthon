@@ -104,7 +104,8 @@ the clip evidence they are based on.</p>
     send.disabled = true;
     addMessage("user", esc(question));
     var typing = typingMessage();
-    fetch("/api/ask", {
+    var prefix = window.location.pathname.startsWith('/app') ? '/app' : '';
+    fetch(prefix + "/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question: question })

@@ -1,0 +1,337 @@
+{
+  "timestamp": "2026-10-09T18:54:12Z",
+  "model_id": "nvidia/cosmos3-nano-reasoner",
+  "clip_count": 5,
+  "variants": {
+    "line_format": {
+      "records": [
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062835_set02_video_chunk_0024_segment_005_of_006.mp4",
+          "filename": "20261001_062835_set02_video_chunk_0024_segment_005_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "crosswalk | intact | 0.98 | Yonge Street | Zebra stripes clearly visible across the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra stripes clearly visible across the intersection.",
+                "street": "Yonge Street"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | intact | 0.98 | Yonge Street | Zebra-style crosswalk with clear white stripes spanning the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra-style crosswalk with clear white stripes spanning the intersection.",
+                "street": "Yonge Street"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062835_set02_video_chunk_0024_segment_004_of_006.mp4",
+          "filename": "20261001_062835_set02_video_chunk_0024_segment_004_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "crosswalk | intact | 0.99 | Yonge St | Zebra-style crosswalk with clear white stripes spanning the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "Zebra-style crosswalk with clear white stripes spanning the intersection.",
+                "street": "Yonge St"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | intact | 0.99 | Yonge Street | Zebra crossing with clear white stripes across the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "Zebra crossing with clear white stripes across the intersection.",
+                "street": "Yonge Street"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062809_set02_video_chunk_0023_segment_006_of_006.mp4",
+          "filename": "20261001_062809_set02_video_chunk_0023_segment_006_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "crosswalk | intact | 0.98 | Yonge Street | Zebra crossing with clear white stripes spanning the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra crossing with clear white stripes spanning the intersection.",
+                "street": "Yonge Street"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | intact | 0.98 | Yonge Street | Zebra stripes clearly visible across the intersection, with crisp white lines on dark asphalt.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra stripes clearly visible across the intersection, with crisp white lines on dark asphalt.",
+                "street": "Yonge Street"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062809_set02_video_chunk_0023_segment_004_of_006.mp4",
+          "filename": "20261001_062809_set02_video_chunk_0023_segment_004_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "crosswalk | intact | 0.99 | Yonge Street | Zebra stripes clearly visible at the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "Zebra stripes clearly visible at the intersection.",
+                "street": "Yonge Street"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | intact | 0.98 | unknown | Zebra crossing with clear white stripes spanning the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra crossing with clear white stripes spanning the intersection.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_065124_set04_video_chunk_0015_segment_004_of_006.mp4",
+          "filename": "20261001_065124_set04_video_chunk_0015_segment_004_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "crosswalk | intact | 0.99 | unknown | Zebra crossing with clear white stripes spanning the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "Zebra crossing with clear white stripes spanning the intersection.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | intact | 0.98 | unknown | Zebra-style crosswalk with clear white stripes spanning the intersection.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra-style crosswalk with clear white stripes spanning the intersection.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        }
+      ],
+      "clips_tested": 5,
+      "clips_with_findings": 5,
+      "total_sightings": 5,
+      "type_stable_runs": 5,
+      "condition_stable_runs": 5,
+      "condition_stability_pct": 100.0,
+      "type_stability_pct": 100.0
+    },
+    "json_format": {
+      "records": [
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062835_set02_video_chunk_0024_segment_005_of_006.mp4",
+          "filename": "20261001_062835_set02_video_chunk_0024_segment_005_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"",
+            "sightings": []
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with black and white stripes.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street",
+            "sightings": []
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062835_set02_video_chunk_0024_segment_004_of_006.mp4",
+          "filename": "20261001_062835_set02_video_chunk_0024_segment_004_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"",
+            "sightings": []
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"",
+            "sightings": []
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062809_set02_video_chunk_0023_segment_006_of_006.mp4",
+          "filename": "20261001_062809_set02_video_chunk_0023_segment_006_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style crosswalk with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\":",
+            "sightings": []
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"",
+            "sightings": []
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_062809_set02_video_chunk_0023_segment_004_of_006.mp4",
+          "filename": "20261001_062809_set02_video_chunk_0023_segment_004_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"",
+            "sightings": []
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra-style pedestrian crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Continental-style pedestrian crossing with white stripes on dark asphalt.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra-style pedestrian crossing with white stripes on dark asphalt.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Continental-style pedestrian crossing with white stripes on dark asphalt.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261001_065124_set04_video_chunk_0015_segment_004_of_006.mp4",
+          "filename": "20261001_065124_set04_video_chunk_0015_segment_004_of_006.mp4",
+          "camera_id": "pie_cam-3",
+          "location": "toronto",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  },\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra crossing with white stripes on dark asphalt.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra crossing with white stripes on dark asphalt.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"Zebra crossing with white stripes on dark asphalt.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "Zebra crossing with white stripes on dark asphalt.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": false
+          }
+        }
+      ],
+      "clips_tested": 5,
+      "clips_with_findings": 2,
+      "total_sightings": 2,
+      "type_stable_runs": 4,
+      "condition_stable_runs": 4,
+      "condition_stability_pct": 80.0,
+      "type_stability_pct": 80.0
+    }
+  }
+}

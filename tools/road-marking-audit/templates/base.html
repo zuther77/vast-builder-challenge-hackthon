@@ -291,13 +291,26 @@
   <header class="top">
     <span class="brand">Street<b>Audit</b></span>
     <nav>
-      <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Findings board</a>
-      <a href="/report" class="{{ 'active' if request.path == '/report' else '' }}">Audit report</a>
-      <a href="/ask" class="{{ 'active' if request.path == '/ask' else '' }}">Ask the agent</a>
+      <a id="nav-board" href="/" class="{{ 'active' if request.path == '/' else '' }}">Findings board</a>
+      <a id="nav-report" href="/report" class="{{ 'active' if request.path == '/report' else '' }}">Audit report</a>
+      <a id="nav-ask" href="/ask" class="{{ 'active' if request.path == '/ask' else '' }}">Ask the agent</a>
     </nav>
     <span class="spacer"></span>
     <span class="mode">backend: {{ client_mode }}</span>
   </header>
+  <script>
+    (function() {
+      var prefix = window.location.pathname.startsWith('/app') ? '/app' : '';
+      if (prefix) {
+        var b = document.getElementById('nav-board');
+        var r = document.getElementById('nav-report');
+        var a = document.getElementById('nav-ask');
+        if (b) b.href = prefix + '/';
+        if (r) r.href = prefix + '/report';
+        if (a) a.href = prefix + '/ask';
+      }
+    })();
+  </script>
   <main>
     {% block content %}{% endblock %}
   </main>

@@ -1,0 +1,616 @@
+{
+  "timestamp": "2026-10-09T18:58:27Z",
+  "model_id": "nvidia/cosmos3-nano-reasoner",
+  "clip_count": 3,
+  "variants": {
+    "line_format": {
+      "records": [
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "filename": "20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "directional_arrow | faded | 0.95 | unknown | White directional arrows on the road surface, some faded and worn.  \nword_text | faded | 0.90 | unknown | The word \"ONLY\" is painted on the road surface, partially faded.  \nbus_box | faded | 0.85 | unknown | A bus stop box is marked on the road, with faded white lines.  \nhov_diamond | faded | 0.80 | unknown | A diamond-shaped marking indicating an HOV lane, partially faded.  \ncrosswalk | faded | 0.88 | unknown | A crosswalk is visible with faded white stripes.  \nstop_line | missing_remnant | 0.92 | unknown | No stop line is visible at the intersection where one would be expected.",
+            "sightings": [
+              {
+                "type": "directional_arrow",
+                "condition": "faded",
+                "confidence": 0.95,
+                "note": "White directional arrows on the road surface, some faded and worn.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.9,
+                "note": "The word \"ONLY\" is painted on the road surface, partially faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "bus_box",
+                "condition": "faded",
+                "confidence": 0.85,
+                "note": "A bus stop box is marked on the road, with faded white lines.",
+                "street": "unknown"
+              },
+              {
+                "type": "hov_diamond",
+                "condition": "faded",
+                "confidence": 0.8,
+                "note": "A diamond-shaped marking indicating an HOV lane, partially faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "faded",
+                "confidence": 0.88,
+                "note": "A crosswalk is visible with faded white stripes.",
+                "street": "unknown"
+              },
+              {
+                "type": "stop_line",
+                "condition": "missing_remnant",
+                "confidence": 0.92,
+                "note": "No stop line is visible at the intersection where one would be expected.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "directional_arrow | faded | 0.95 | unknown | White directional arrows pointing forward and left, partially worn.  \nword_text | faded | 0.92 | unknown | \"ONLY\" painted in white, partially faded.  \nbus_box | faded | 0.88 | unknown | White rectangular bus stop box markings, faded.  \nhov_diamond | faded | 0.85 | unknown | White diamond-shaped HOV lane markings, faded.  \ncrosswalk | faded | 0.90 | unknown | Zebra crossing with white stripes, faded.  \nstop_line | faded | 0.87 | unknown | White stop line at intersection, faded.  \nyield_line | faded | 0.84 | unknown | White yield line, faded.  \nschool_crossing | faded | 0.82 | unknown | School crossing markings, faded.  \nword_text | faded | 0.89 | unknown | \"SCHOOL\" painted in white, faded.  \nword_text | faded | 0.86 | unknown | \"STOP\" painted in white, faded.  \nword_text | faded | 0.83 | unknown | \"SLOW\" painted in white, faded.  \nbus_box | faded | 0.81 | unknown | White bus stop box markings, faded.  \nhov_diamond | faded | 0.79 | unknown | White diamond-shaped HOV lane markings, faded.  \ncrosswalk | faded | 0.77 | unknown | Zebra crossing with white stripes, faded.  \nstop_line | faded | 0.75 | unknown | White stop line at intersection, faded.  \nyield_line | faded | 0.73 | unknown | White yield line, faded.  \nschool_crossing | faded | 0.71 | unknown | School crossing markings, faded.  \nword_text | faded | 0.69 | unknown | \"SCHOOL\" painted in white, faded.  \nword_text | faded | 0.67 | unknown | \"STOP\" painted in white, faded.  \nword_text | faded | 0.65 | unknown | \"SLOW\" painted in white, faded.  \nbus_box | faded | 0.63 | unknown | White bus stop box markings, faded.  \nhov_diamond | faded | 0.61 | unknown | White diamond-shaped HOV lane markings, faded.  \ncrosswalk |",
+            "sightings": [
+              {
+                "type": "directional_arrow",
+                "condition": "faded",
+                "confidence": 0.95,
+                "note": "White directional arrows pointing forward and left, partially worn.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.92,
+                "note": "\"ONLY\" painted in white, partially faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "bus_box",
+                "condition": "faded",
+                "confidence": 0.88,
+                "note": "White rectangular bus stop box markings, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "hov_diamond",
+                "condition": "faded",
+                "confidence": 0.85,
+                "note": "White diamond-shaped HOV lane markings, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "faded",
+                "confidence": 0.9,
+                "note": "Zebra crossing with white stripes, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "stop_line",
+                "condition": "faded",
+                "confidence": 0.87,
+                "note": "White stop line at intersection, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "yield_line",
+                "condition": "faded",
+                "confidence": 0.84,
+                "note": "White yield line, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "school_crossing",
+                "condition": "faded",
+                "confidence": 0.82,
+                "note": "School crossing markings, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.89,
+                "note": "\"SCHOOL\" painted in white, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.86,
+                "note": "\"STOP\" painted in white, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.83,
+                "note": "\"SLOW\" painted in white, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "bus_box",
+                "condition": "faded",
+                "confidence": 0.81,
+                "note": "White bus stop box markings, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "hov_diamond",
+                "condition": "faded",
+                "confidence": 0.79,
+                "note": "White diamond-shaped HOV lane markings, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "faded",
+                "confidence": 0.77,
+                "note": "Zebra crossing with white stripes, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "stop_line",
+                "condition": "faded",
+                "confidence": 0.75,
+                "note": "White stop line at intersection, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "yield_line",
+                "condition": "faded",
+                "confidence": 0.73,
+                "note": "White yield line, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "school_crossing",
+                "condition": "faded",
+                "confidence": 0.71,
+                "note": "School crossing markings, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.69,
+                "note": "\"SCHOOL\" painted in white, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.67,
+                "note": "\"STOP\" painted in white, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.65,
+                "note": "\"SLOW\" painted in white, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "bus_box",
+                "condition": "faded",
+                "confidence": 0.63,
+                "note": "White bus stop box markings, faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "hov_diamond",
+                "condition": "faded",
+                "confidence": 0.61,
+                "note": "White diamond-shaped HOV lane markings, faded.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "crosswalk | partial | 0.95 | unknown | Partial zebra stripes visible at the beginning of the clip, with some lanes missing or faded.\ndirectional_arrow | partial | 0.85 | unknown | White directional arrow on the green bike lane, partially visible and slightly faded.\nhov_diamond | missing_remnant | 0.70 | unknown | No visible HOV diamond markings on the road surface.\nstop_line | missing_remnant | 0.65 | unknown | No stop line visible at the intersection where vehicles are stopped.\nyield_line | missing_remnant | 0.60 | unknown | No yield line visible at the intersection.\nword_text | missing_remnant | 0.55 | unknown | No painted words like \"SCHOOL\" or \"STOP\" visible on the road.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "partial",
+                "confidence": 0.95,
+                "note": "Partial zebra stripes visible at the beginning of the clip, with some lanes missing or faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "partial",
+                "confidence": 0.85,
+                "note": "White directional arrow on the green bike lane, partially visible and slightly faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "hov_diamond",
+                "condition": "missing_remnant",
+                "confidence": 0.7,
+                "note": "No visible HOV diamond markings on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "stop_line",
+                "condition": "missing_remnant",
+                "confidence": 0.65,
+                "note": "No stop line visible at the intersection where vehicles are stopped.",
+                "street": "unknown"
+              },
+              {
+                "type": "yield_line",
+                "condition": "missing_remnant",
+                "confidence": 0.6,
+                "note": "No yield line visible at the intersection.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "missing_remnant",
+                "confidence": 0.55,
+                "note": "No painted words like \"SCHOOL\" or \"STOP\" visible on the road.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | partial | 0.9 | unknown | Partially visible crosswalk with white stripes, some faded and worn.\ndirectional_arrow | intact | 0.9 | unknown | White directional arrow pointing straight ahead, clearly visible.\nhov_diamond | missing_remnant | 0.8 | unknown | No visible HOV lane diamond markings; area appears clear.\nword_text | faded | 0.7 | unknown | Faded white text on the pavement, possibly indicating a lane designation, partially legible.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "partial",
+                "confidence": 0.9,
+                "note": "Partially visible crosswalk with white stripes, some faded and worn.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.9,
+                "note": "White directional arrow pointing straight ahead, clearly visible.",
+                "street": "unknown"
+              },
+              {
+                "type": "hov_diamond",
+                "condition": "missing_remnant",
+                "confidence": 0.8,
+                "note": "No visible HOV lane diamond markings; area appears clear.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.7,
+                "note": "Faded white text on the pavement, possibly indicating a lane designation, partially legible.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "crosswalk | faded | 0.9 | unknown | White stripes are visible but worn and partially obscured by motion blur and road surface wear.\ndirectional_arrow | faded | 0.8 | unknown | White arrow pointing forward is visible but faded and partially obscured by motion blur.\nword_text | faded | 0.7 | unknown | White \"BUS\" text is visible but faded and partially obscured by motion blur.\nbus_box | faded | 0.7 | unknown | White rectangular box is visible but faded and partially obscured by motion blur.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "faded",
+                "confidence": 0.9,
+                "note": "White stripes are visible but worn and partially obscured by motion blur and road surface wear.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "faded",
+                "confidence": 0.8,
+                "note": "White arrow pointing forward is visible but faded and partially obscured by motion blur.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.7,
+                "note": "White \"BUS\" text is visible but faded and partially obscured by motion blur.",
+                "street": "unknown"
+              },
+              {
+                "type": "bus_box",
+                "condition": "faded",
+                "confidence": 0.7,
+                "note": "White rectangular box is visible but faded and partially obscured by motion blur.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | partial | 0.9 | unknown | Partial zebra stripes visible at the beginning of the clip, indicating a crosswalk that is not fully painted or maintained.\ndirectional_arrow | faded | 0.8 | unknown | Faded directional arrow pointing straight ahead on the bike lane, suggesting wear or lack of maintenance.\nword_text | faded | 0.7 | unknown | Faded text \"BUS\" painted on the road surface, indicating a bus lane or stop area that is no longer clearly visible.\nhov_diamond | missing_remnant | 0.6 | unknown | No visible HOV diamond markings, suggesting the lane may no longer be designated or the markings have been removed.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "partial",
+                "confidence": 0.9,
+                "note": "Partial zebra stripes visible at the beginning of the clip, indicating a crosswalk that is not fully painted or maintained.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "faded",
+                "confidence": 0.8,
+                "note": "Faded directional arrow pointing straight ahead on the bike lane, suggesting wear or lack of maintenance.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.7,
+                "note": "Faded text \"BUS\" painted on the road surface, indicating a bus lane or stop area that is no longer clearly visible.",
+                "street": "unknown"
+              },
+              {
+                "type": "hov_diamond",
+                "condition": "missing_remnant",
+                "confidence": 0.6,
+                "note": "No visible HOV diamond markings, suggesting the lane may no longer be designated or the markings have been removed.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        }
+      ],
+      "clips_tested": 3,
+      "clips_with_findings": 3,
+      "total_sightings": 16,
+      "type_stable_runs": 0,
+      "condition_stable_runs": 0,
+      "condition_stability_pct": 0.0,
+      "type_stability_pct": 0.0
+    },
+    "json_format": {
+      "records": [
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "filename": "20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing forward painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing left painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"The word \\\"ONLY\\\" painted in white on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"The word \\\"BUS\\\" painted in white on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"The word \\\"SLOW\\\" painted in white on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"The word \\\"OFO\\\" painted in white on the green bike lane.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "White arrow pointing forward painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "White arrow pointing left painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "The word \"ONLY\" painted in white on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "The word \"BUS\" painted in white on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "The word \"SLOW\" painted in white on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "The word \"OFO\" painted in white on the green bike lane.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing forward on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing left on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing right on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"ONLY\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"BUS\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"SLOW\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"Bike\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"ONLY\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"Bike\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street",
+            "sightings": []
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing forward painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing left painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing right painted on the road surface.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "White zebra stripes painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.97,
+                "note": "White arrow pointing forward painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.97,
+                "note": "White arrow pointing left painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.97,
+                "note": "White arrow pointing right painted on the road surface.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.95,\n    \"street\": \"unknown\",\n    \"note\": \"White bicycle symbol painted on the road surface.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "White zebra stripes painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.97,
+                "note": "White arrow pointing straight ahead painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "White bicycle symbol painted on the road surface.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing forward painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White \\\"BUS\\\" text painted on the road surface.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "White zebra stripes painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "White arrow pointing forward painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.99,
+                "note": "White \"BUS\" text painted on the road surface.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.95,\n    \"street\": \"unknown\",\n    \"note\": \"White \\\"BUS\\\" text painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.95,\n    \"street\": \"unknown\",\n    \"note\": \"White \\\"SCHOOL\\\" text painted on the road surface.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "White zebra stripes painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.97,
+                "note": "White arrow pointing straight ahead painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "White \"BUS\" text painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "White \"SCHOOL\" text painted on the road surface.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": false
+          }
+        }
+      ],
+      "clips_tested": 3,
+      "clips_with_findings": 3,
+      "total_sightings": 13,
+      "type_stable_runs": 1,
+      "condition_stable_runs": 1,
+      "condition_stability_pct": 33.3,
+      "type_stability_pct": 33.3
+    }
+  }
+}

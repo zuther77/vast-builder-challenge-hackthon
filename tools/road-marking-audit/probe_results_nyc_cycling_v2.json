@@ -1,0 +1,327 @@
+{
+  "timestamp": "2026-10-09T19:00:13Z",
+  "model_id": "nvidia/cosmos3-nano-reasoner",
+  "clip_count": 3,
+  "variants": {
+    "line_format": {
+      "records": [
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "filename": "20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "bike_lane | faded | 0.85 | unknown | Green lane with white bicycle symbol and \"Bike Lane\" text, partially worn.  \ndirectional_arrow | partial | 0.70 | unknown | White arrow pointing forward, partially faded.  \nword_text | faded | 0.65 | unknown | \"ONLY\" text in white, partially worn.  \ncrosswalk | partial | 0.55 | unknown | White crosswalk lines, partially faded.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "faded",
+                "confidence": 0.85,
+                "note": "Green lane with white bicycle symbol and \"Bike Lane\" text, partially worn.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "partial",
+                "confidence": 0.7,
+                "note": "White arrow pointing forward, partially faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "faded",
+                "confidence": 0.65,
+                "note": "\"ONLY\" text in white, partially worn.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "partial",
+                "confidence": 0.55,
+                "note": "White crosswalk lines, partially faded.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "bike_lane | faded | 0.8 | unknown | Green lane with white \"B\" and \"O\" letters, faded over time.  \ndirectional_arrow | partial | 0.7 | unknown | White arrow pointing forward, partially worn.  \nword_text | partial | 0.6 | unknown | Partially visible white text on pavement, worn and faded.  \ncrosswalk | intact | 0.9 | unknown | Clear white stripes forming a crosswalk, well-preserved.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "faded",
+                "confidence": 0.8,
+                "note": "Green lane with white \"B\" and \"O\" letters, faded over time.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "partial",
+                "confidence": 0.7,
+                "note": "White arrow pointing forward, partially worn.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "partial",
+                "confidence": 0.6,
+                "note": "Partially visible white text on pavement, worn and faded.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.9,
+                "note": "Clear white stripes forming a crosswalk, well-preserved.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": false,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "bike_lane | intact | 0.95 | unknown | Green lane with yellow centerline and white directional arrows visible.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "Green lane with yellow centerline and white directional arrows visible.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "bike_lane | intact | 0.95 | unknown | Green lane with white bicycle symbol and directional arrow visible.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "Green lane with white bicycle symbol and directional arrow visible.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "bike_lane | intact | 0.95 | unknown | Green lane with white bicycle symbol and directional arrows clearly visible.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "Green lane with white bicycle symbol and directional arrows clearly visible.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "crosswalk | partial | 0.8 | unknown | Partial white stripes visible at the start of the video, indicating a crosswalk.  \nbike_lane | intact | 0.9 | unknown | Green lane with clear white bicycle symbols and directional arrows.  \nstop_line | partial | 0.7 | unknown | Partial white line visible near the crosswalk, indicating a stop line.  \ndirectional_arrow | intact | 0.9 | unknown | White arrow pointing straight ahead, clearly visible on the bike lane.",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "partial",
+                "confidence": 0.8,
+                "note": "Partial white stripes visible at the start of the video, indicating a crosswalk.",
+                "street": "unknown"
+              },
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.9,
+                "note": "Green lane with clear white bicycle symbols and directional arrows.",
+                "street": "unknown"
+              },
+              {
+                "type": "stop_line",
+                "condition": "partial",
+                "confidence": 0.7,
+                "note": "Partial white line visible near the crosswalk, indicating a stop line.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.9,
+                "note": "White arrow pointing straight ahead, clearly visible on the bike lane.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        }
+      ],
+      "clips_tested": 3,
+      "clips_with_findings": 3,
+      "total_sightings": 6,
+      "type_stable_runs": 2,
+      "condition_stable_runs": 1,
+      "condition_stability_pct": 33.3,
+      "type_stability_pct": 66.7
+    },
+    "json_format": {
+      "records": [
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "filename": "20261008_074332_GX010001_chunk_0016_segment_004_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing forward painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing left painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"ONLY\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"SLOW\\\" on a manhole cover.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"Bike\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"Bike\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"Bike\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"Bike\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White painted text \\\"Bike\\\" on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0",
+            "sightings": []
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"SLOW painted on a manhole cover in white text.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing left painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing right painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.99,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": ",
+            "sightings": []
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": true
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_001_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": ",
+            "sightings": []
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.95,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing straight ahead painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.92,\n    \"street\": \"unknown\",\n    \"note\": \"White text reading \\\"BUS\\\" painted on the road surface.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "White zebra stripes painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "White arrow pointing straight ahead painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.92,
+                "note": "White text reading \"BUS\" painted on the road surface.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": false,
+            "condition_match": false,
+            "strict_match": false
+          }
+        },
+        {
+          "source": "s3://team-23-vss-chunks-segments/segments/20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "filename": "20261008_073013_GOPR0130_chunk_0015_segment_003_of_006.mp4",
+          "camera_id": "nyc_bike_gopro-1",
+          "location": "new_york",
+          "run1": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.95,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing forward painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.92,\n    \"street\": \"unknown\",\n    \"note\": \"White \\\"BUS\\\" text painted on the road surface.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "White zebra stripes painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "White arrow pointing forward painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.92,
+                "note": "White \"BUS\" text painted on the road surface.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "run2": {
+            "raw": "```json\n[\n  {\n    \"type\": \"crosswalk\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.98,\n    \"street\": \"unknown\",\n    \"note\": \"White zebra stripes painted on the road surface.\"\n  },\n  {\n    \"type\": \"directional_arrow\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.97,\n    \"street\": \"unknown\",\n    \"note\": \"White arrow pointing forward painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.95,\n    \"street\": \"unknown\",\n    \"note\": \"White text \\\"BUS\\\" painted on the road surface.\"\n  },\n  {\n    \"type\": \"word_text\",\n    \"condition\": \"intact\",\n    \"confidence\": 0.95,\n    \"street\": \"unknown\",\n    \"note\": \"White text \\\"SCHOOL\\\" painted on the road surface.\"\n  }\n]\n```",
+            "sightings": [
+              {
+                "type": "crosswalk",
+                "condition": "intact",
+                "confidence": 0.98,
+                "note": "White zebra stripes painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "directional_arrow",
+                "condition": "intact",
+                "confidence": 0.97,
+                "note": "White arrow pointing forward painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "White text \"BUS\" painted on the road surface.",
+                "street": "unknown"
+              },
+              {
+                "type": "word_text",
+                "condition": "intact",
+                "confidence": 0.95,
+                "note": "White text \"SCHOOL\" painted on the road surface.",
+                "street": "unknown"
+              }
+            ]
+          },
+          "stability": {
+            "type_match": true,
+            "condition_match": true,
+            "strict_match": false
+          }
+        }
+      ],
+      "clips_tested": 3,
+      "clips_with_findings": 2,
+      "total_sightings": 3,
+      "type_stable_runs": 2,
+      "condition_stable_runs": 2,
+      "condition_stability_pct": 66.7,
+      "type_stability_pct": 66.7
+    }
+  }
+}

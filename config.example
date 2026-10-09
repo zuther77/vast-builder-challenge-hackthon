@@ -1,0 +1,76 @@
+# Per-team configuration for the VAST Builders Challenge.
+#
+# You do NOT need to fill this in or source it. These values are already set as
+# environment variables in your VM. This file documents what exists, so you know what
+# the skills are reading and what to reference in your own code.
+#
+# Placeholders only. Never commit real credentials.
+
+# ---- identity ----
+USERNAME=team-x
+PASSWORD=<password>
+
+# ---- S3 ----
+S3_ENDPOINT=<https://s3-endpoint>
+ACCESS_KEY=<access-key>
+SECRET_KEY=<secret-key>
+# Your team's video chunks, and the segments the pipeline cut from them.
+S3_CHUNKS_BUCKET=team-x-vss-chunks
+S3_SEGMENTS_BUCKET=team-x-vss-chunks-segments
+
+# ---- VastDB (database = bucket; schema + tables below) ----
+# If VDB_ENDPOINT isn't set for your team, use the same value as S3_ENDPOINT.
+# They are often the same host; it's named separately so the intent is clear.
+VDB_ENDPOINT=<https://vastdb-endpoint>
+VASTDB_BUCKET=team-x-vss-db
+# Schema and tables inside VASTDB_BUCKET. Same for every team today.
+# VDB_COLLECTION is the search index; VDB_PROMPTS_COLLECTION holds the ingestion prompts.
+VDB_SCHEMA=vss-schema
+VDB_COLLECTION=vss-collection
+VDB_PROMPTS_COLLECTION=vss-prompts-events
+
+# ---- DataEngine / UI ----
+# PIPELINE is the name you see for your VSS instance in the UI. No skill reads it.
+# INGRESS_URL is the base URL of that instance's API. Skills call it as their backend.
+PIPELINE=team-x-vss
+INGRESS_URL=<https://ingress-url>
+
+# ---- Weights & Biases (agent logic / LLM inference) ----
+WANDB_API_KEY=<wandb-api-key>
+WANDB_TEAM=<wandb-team>
+# Often the same as the team name. One project per team.
+WANDB_PROJECT=<wandb-project>
+
+# ---- GPU model endpoints ----
+# Used by the gpu/ skills. Each model has its own host and port; they are not the same
+# across models, so don't derive one from another. No auth token is needed to call them.
+COSMOS3_REASON_URL=<http://host:port>
+YOLO_URL=<http://host:port>
+COSMOS_EMBED1_URL=<http://host:port>
+CANARY_1B_URL=<http://host:port>
+
+# Model ids the smoke tests interpolate. If these are unset, ask the endpoint instead:
+#   curl -s "$ENDPOINT/v1/models"
+# and use the id it returns. Cosmos3-Reason and Embed1 serve /v1/models; YOLO and Canary may not,
+# and a 404 there does not mean the model is down.
+# Known-good ids (public model names, not secrets):
+COSMOS3_REASON_MODEL=nvidia/cosmos3-reason
+COSMOS_EMBED1_MODEL=nvidia/cosmos-embed1
+# Canary's id was not in the team config. Left unset on purpose: discover it from
+# /v1/models rather than guessing. Health checks pass without it; only transcription
+# needs it. Setting it to a placeholder would break the discover-if-unset path.
+#CANARY_1B_MODEL=
+
+# ---- Where the variables above come from ----
+# All of them live in the single /config/<team>.config file on the VM, which the
+# environment should export. If one is missing from the environment, source that file.
+# WANDB_API_KEY, WANDB_TEAM and WANDB_PROJECT are often set in the environment even when
+# they are absent from the file, so check the environment before assuming they're missing.
+
+# ---- Other files in /config (not variables) ----
+# These may be team-prefixed rather than canonical. Prefer the canonical name, fall back
+# to the prefixed one, and treat a missing literal as "look for the alias", not an error.
+#   kubeconfig            <team>-k8s.yaml
+#   backend-secret.yaml   <team>-backend-secret.yaml
+#   vss-cli-secret.yaml   <team>-vss2-secret.yaml
+# Some VMs also carry symlinks from the canonical names, so handle both.

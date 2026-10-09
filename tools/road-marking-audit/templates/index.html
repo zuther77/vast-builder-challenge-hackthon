@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+{% block title %}Findings board - Road Marking Audit{% endblock %}
+{% block content %}
+<h1>Findings board</h1>
+<p class="subtitle">Which streets have missing or partial road markings?
+Filter the audited sightings and drill into per-street evidence.</p>
+
+<section class="panel filters" id="filters">
+  <div class="filter-grid">
+    <fieldset id="type-filters">
+      <legend>Marking type</legend>
+      <div class="checks"></div>
+    </fieldset>
+    <fieldset id="condition-filters">
+      <legend>Condition</legend>
+      <div class="checks"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Camera</legend>
+      <select id="camera-select"></select>
+    </fieldset>
+    <fieldset>
+      <legend>Street</legend>
+      <select id="street-select"></select>
+    </fieldset>
+    <fieldset>
+      <legend>Min confidence</legend>
+      <div class="slider-row">
+        <input type="range" id="min-confidence" min="0" max="1" step="0.05" value="0">
+        <span id="confidence-value">0.00</span>
+      </div>
+    </fieldset>
+  </div>
+  <div class="filter-actions">
+    <button id="apply-btn" type="button">Apply filters</button>
+    <button id="clear-btn" type="button">Clear</button>
+  </div>
+</section>
+
+<div class="stats" id="stats">
+  <div class="stat"><div class="value" id="stat-total">-</div><div class="label">Total findings</div></div>
+  <div class="stat"><div class="value" id="stat-streets">-</div><div class="label">Streets audited</div></div>
+  <div class="stat"><div class="value" id="stat-worst">-</div><div class="label">Worst street</div></div>
+  <div class="stat"><div class="value" id="stat-nonintact">-</div><div class="label">% non-intact</div></div>
+</div>
+
+<section class="panel">
+  <h2>Object exposure (current view)</h2>
+  <div class="histogram" id="histogram"><div class="empty">Loading...</div></div>
+</section>
+
+<div id="results"><div class="empty">Loading findings...</div></div>
+
+<script id="app-data" type="application/json">{{ page_data|tojson }}</script>
+<script>
+(function () {
+  "use strict";
+  var APP = JSON.parse(document.getElementById("app-data").textContent);
+  var resultsEl = document.getElementById("results");
+
+  function esc(value) {
+    var div = document.createElement("div");
+    div.textContent = value == null ? "" : String(value);
+    return div.innerHTML;
+  }
+  function label(value) { return String(value).split("_").join(" "); }
+
+  function buildFilterControls() {
+    var typeBoxes = document.querySelector("#type-filters .checks");
+    APP.marking_types.forEach(function (type) {
+      typeBoxes.insertAdjacentHTML("beforeend",
+        '<label><input type="checkbox" name="marking_type" value="' + esc(type) +
+        '">' + esc(label(type)) + "</label>");
+    });
+    var condBoxes = document.querySelector("#condition-filters .checks");
+    APP.conditions.forEach(function (condition) {
+      condBoxes.insertAdjacentHTML("beforeend",
+        '<label><input type="checkbox" name="condition" value="' + esc(condition) +
+        '">' + esc(label(condition)) + "</label>");
+    });
+    var cameraSelect = document.getElementById("camera-select");
+    cameraSelect.insertAdjacentHTML("beforeend", '<option value="">All cameras</option>');
+    APP.cameras.forEach(function (camera) {
+      cameraSelect.insertAdjacentHTML("beforeend",
+        '<option value="' + esc(camera.id) + '">' + esc(camera.id) +
+        " (" + esc(camera.location) + ")</option>");
+    });
+    var streetSelect = document.getElementById("street-select");
+    streetSelect.insertAdjacentHTML("beforeend", '<option value="">All streets</option>');
+    APP.streets.forEach(function (street) {
+      streetSelect.insertAdjacentHTML("beforeend",
+        '<option value="' + esc(street) + '">' + esc(street) + "</option>");
+    });
+  }
+
+  function buildQuery() {
+    var params = new URLSearchParams();
+    document.querySelectorAll('input[name="marking_type"]:checked').forEach(function (box) {
+      params.append("marking_type", box.value);
+    });
+    document.querySelectorAll('input[name="condition"]:checked').forEach(function (box) {
+      params.append("condition", box.value);
+    });
+    var camera = document.getElementById("camera-select").value;
+    if (camera) { params.set("camera", camera); }
+    var street = document.getElementById("street-select").value;
+    if (street) { params.set("street", street); }
+    var minConfidence = parseFloat(document.getElementById("min-confidence").value);
+    if (minConfidence > 0) { params.set("min_confidence", minConfidence); }
+    return params.toString();
+  }
+
+  function renderStats(stats) {
+    document.getElementById("stat-total").textContent = stats.total_findings;
+    document.getElementById("stat-streets").textContent = stats.streets_audited;
+    document.getElementById("stat-worst").textContent = stats.worst_street || "-";
+    document.getElementById("stat-nonintact").textContent =
+      stats.pct_non_intact.toFixed(1) + "%";
+  }
+
+  function renderHistogram(histogram) {
+    var el = document.getElementById("histogram");
+    if (!histogram.length) {
+      el.innerHTML = '<div class="empty">No detected objects in the current view.</div>';
+      return;
+    }
+    var max = histogram[0].count || 1;
+    el.innerHTML = histogram.map(function (row) {
+      return '<div class="bar-row">' +
+        '<span>' + esc(row.object_class) + "</span>" +
+        '<span class="bar-track"><span class="bar-fill" style="width:' +
+          Math.max(2, Math.round(100 * row.count / max)) + '%"></span></span>' +
+        "<span>" + row.count + "</span>" +
+        "</div>";
+    }).join("");
+  }
+
+  function sourceName(source) {
+    var parts = String(source).split("/");
+    return parts[parts.length - 1];
+  }
+
+  function clipCell(role, clip, caption) {
+    if (!clip.source) {
+      // Set boundary: the neighbor segment does not exist.
+      return '<div class="cell unavailable"><span class="role">' + role +
+        '</span>not available (set boundary)</div>';
+    }
+    var inner;
+    if (clip.stream_url) {
+      // Real backend: the swap is data-only once the *_stream_url fields
+      // point at the /api/v1/videos/stream playback URLs.
+      inner = '<video controls preload="none" src="' + esc(clip.stream_url) +
+        '"></video>';
+    } else {
+      inner = '<span class="t">t=' + clip.start_sec.toFixed(1) + "s</span>" +
+        esc(sourceName(clip.source)) + "<br>" + esc(clip.captured_at);
+    }
+    if (caption) { inner += "<br>" + esc(caption); }
+    return '<div class="cell"><span class="role">' + role + "</span>" +
+      inner + "</div>";
+  }
+
+  function evidenceArea(finding) {
+    var roles = ["before", "event", "after"];
+    var cells = roles.map(function (role) {
+      var source = finding[role + "_source"];
+      var clip = {
+        source: source,
+        stream_url: finding[role + "_stream_url"],
+        captured_at: finding[role + "_captured_at"],
+        start_sec: finding[role + "_start_sec"]
+      };
+      var caption = role === "event" ? finding.caption : null;
+      return clipCell(role, clip, caption);
+    }).join("");
+    return '<div class="triptych">' + cells + "</div>";
+  }
+
+  function findingRow(finding) {
+    var available = ["before", "event", "after"].filter(function (role) {
+      return finding[role + "_source"];
+    }).length;
+    return '<div class="finding">' +
+      '<span class="chip type">' + esc(label(finding.type)) + "</span>" +
+      '<span class="chip cond ' + esc(APP.cond_class[finding.condition]) + '">' +
+        esc(label(finding.condition)) + "</span>" +
+      '<span class="conf"><span class="bar"><i style="width:' +
+        Math.round(finding.confidence * 100) + '%"></i></span>' +
+        finding.confidence.toFixed(2) + "</span>" +
+      '<span class="meta">' + esc(finding.camera_id) + "<br>" +
+        esc(finding.captured_at) + "</span>" +
+      '<span class="note">' + esc(finding.note) + "</span>" +
+      '<span class="hint">evidence (' + available + " clips)</span>" +
+      '<div class="evidence">' + evidenceArea(finding) + "</div>" +
+      "</div>";
+  }
+
+  function breakdownTable(findings) {
+    var types = {};
+    findings.forEach(function (f) { types[f.type] = true; });
+    var typeList = APP.marking_types.filter(function (t) { return types[t]; });
+    var counts = {};
+    findings.forEach(function (f) {
+      var key = f.type + "|" + f.condition;
+      counts[key] = (counts[key] || 0) + 1;
+    });
+    var html = '<table class="breakdown"><tr><th>type</th>';
+    APP.conditions.forEach(function (condition) {
+      html += "<th>" + esc(label(condition)) + "</th>";
+    });
+    html += "</tr>";
+    typeList.forEach(function (type) {
+      html += "<tr><th>" + esc(label(type)) + "</th>";
+      APP.conditions.forEach(function (condition) {
+        var count = counts[type + "|" + condition] || 0;
+        html += '<td class="' + (count ? "" : "zero") + '">' + count + "</td>";
+      });
+      html += "</tr>";
+    });
+    return html + "</table>";
+  }
+
+  function renderResults(data) {
+    renderStats(data.stats);
+    renderHistogram(data.histogram || []);
+    if (!data.findings.length) {
+      resultsEl.innerHTML = '<div class="empty">No findings match the current filters.</div>';
+      return;
+    }
+    var byStreet = {};
+    data.findings.forEach(function (f) {
+      (byStreet[f.street] = byStreet[f.street] || []).push(f);
+    });
+    var streets = Object.keys(byStreet).sort(function (a, b) {
+      var aUnknown = a === "unknown" ? 1 : 0;
+      var bUnknown = b === "unknown" ? 1 : 0;
+      return aUnknown - bUnknown || a.localeCompare(b);
+    });
+    var html = "";
+    streets.forEach(function (street) {
+      var findings = byStreet[street];
+      var nonIntact = findings.filter(function (f) {
+        return APP.non_intact_conditions.indexOf(f.condition) !== -1;
+      }).length;
+      html += '<section class="panel street-card"><header>' +
+        '<span class="name">' + esc(street) + "</span>" +
+        '<span class="meta">' + findings.length + " findings, " + nonIntact +
+        " non-intact</span></header>" +
+        breakdownTable(findings);
+      findings.forEach(function (finding) {
+        html += findingRow(finding);
+      });
+      html += "</section>";
+    });
+    resultsEl.innerHTML = html;
+  }
+
+  function load() {
+    var query = buildQuery();
+    fetch("/api/findings" + (query ? "?" + query : ""))
+      .then(function (response) { return response.json(); })
+      .then(renderResults)
+      .catch(function () {
+        resultsEl.innerHTML = '<div class="empty">Failed to load findings.</div>';
+      });
+  }
+
+  function clearFilters() {
+    document.querySelectorAll("#filters input[type=checkbox]").forEach(function (box) {
+      box.checked = false;
+    });
+    document.getElementById("camera-select").value = "";
+    document.getElementById("street-select").value = "";
+    document.getElementById("min-confidence").value = "0";
+    document.getElementById("confidence-value").textContent = "0.00";
+    load();
+  }
+
+  var sliderTimer = null;
+  document.getElementById("min-confidence").addEventListener("input", function (event) {
+    document.getElementById("confidence-value").textContent =
+      parseFloat(event.target.value).toFixed(2);
+    clearTimeout(sliderTimer);
+    sliderTimer = setTimeout(load, 200);
+  });
+  document.getElementById("apply-btn").addEventListener("click", load);
+  document.getElementById("clear-btn").addEventListener("click", clearFilters);
+  document.getElementById("camera-select").addEventListener("change", load);
+  document.getElementById("street-select").addEventListener("change", load);
+  document.querySelectorAll("#filters input[type=checkbox]").forEach(function (box) {
+    box.addEventListener("change", load);
+  });
+  // Click a finding row to expand its before / event / after evidence strip.
+  resultsEl.addEventListener("click", function (event) {
+    if (event.target.closest("video")) { return; }
+    var row = event.target.closest(".finding");
+    if (row) { row.classList.toggle("open"); }
+  });
+
+  buildFilterControls();
+  load();
+})();
+</script>
+{% endblock %}

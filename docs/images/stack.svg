@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 545" width="1080" height="545" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="545" rx="12" fill="#F2F2F7"/>
+  <g fill="#ffffff" stroke="#9ca3af" stroke-width="1.5">
+    <rect x="30" y="25" width="170" height="130" rx="10"/>
+    <rect x="230" y="25" width="200" height="130" rx="10"/>
+    <rect x="460" y="25" width="170" height="130" rx="10"/>
+    <rect x="660" y="25" width="190" height="130" rx="10"/>
+  </g>
+  <rect x="880" y="25" width="170" height="130" rx="10" fill="#111827"/>
+  <g stroke="#6b7280" stroke-width="2" fill="none">
+    <line x1="202" y1="90" x2="228" y2="90" marker-end="url(#a)"/>
+    <line x1="432" y1="90" x2="458" y2="90" marker-end="url(#a)"/>
+    <line x1="632" y1="90" x2="658" y2="90" marker-end="url(#a)"/>
+    <line x1="852" y1="90" x2="878" y2="90" marker-end="url(#a)"/>
+  </g>
+  <g text-anchor="middle" fill="#111827" font-size="14">
+    <g font-weight="700" font-size="13" letter-spacing="1.5">
+      <text x="115" y="52">INGEST</text>
+      <text x="330" y="52">UNDERSTAND</text>
+      <text x="545" y="52">INDEX</text>
+      <text x="755" y="52">SEARCH / ASK</text>
+    </g>
+    <text x="115" y="98">video upload</text>
+    <text x="330" y="80">segment</text>
+    <text x="330" y="102">describe</text>
+    <text x="330" y="124">embed</text>
+    <text x="330" y="146">detect</text>
+    <text x="545" y="88">vectors +</text>
+    <text x="545" y="110">metadata</text>
+    <text x="755" y="80">semantic search</text>
+    <text x="755" y="102">Q&amp;A</text>
+    <text x="755" y="124">metadata</text>
+  </g>
+  <g text-anchor="middle" fill="#ffffff" font-size="14">
+    <text x="965" y="52" font-weight="700" font-size="13" letter-spacing="1.5">ACT</text>
+    <text x="965" y="80">your app</text>
+    <text x="965" y="102" fill="#d1d5db">alert, report,</text>
+    <text x="965" y="124" fill="#d1d5db">dashboard, bot</text>
+  </g>
+  <!-- VAST AI OS wrapper -->
+  <rect x="20" y="170" width="840" height="92" rx="14" fill="#e5e7eb" stroke="#03142C" stroke-width="2"/>
+  <rect x="395" y="159" width="120" height="24" rx="12" fill="#03142C"/>
+  <text x="455" y="176" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="1" fill="#ffffff">VAST AI OS</text>
+  <!-- what each stage runs on -->
+  <g stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4 4" fill="none">
+    <line x1="115" y1="157" x2="115" y2="188"/>
+    <line x1="330" y1="157" x2="330" y2="188"/>
+    <line x1="545" y1="157" x2="545" y2="188"/>
+    <line x1="755" y1="157" x2="755" y2="188"/>
+    <line x1="965" y1="157" x2="965" y2="188"/>
+    <line x1="330" y1="252" x2="330" y2="268"/>
+    <line x1="965" y1="252" x2="965" y2="268"/>
+  </g>
+  <g fill="#ffffff" stroke="#9ca3af" stroke-width="1.5">
+    <rect x="30" y="190" width="170" height="60" rx="10"/>
+    <rect x="230" y="190" width="200" height="60" rx="10"/>
+    <rect x="460" y="190" width="390" height="60" rx="10"/>
+  </g>
+  <rect x="230" y="270" width="200" height="192" rx="10" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5"/>
+  <g fill="#ffffff" stroke="#9ca3af" stroke-width="1.5">
+    <rect x="240" y="334" width="180" height="34" rx="8"/>
+    <rect x="240" y="376" width="180" height="34" rx="8"/>
+    <rect x="240" y="418" width="180" height="34" rx="8"/>
+  </g>
+  <g fill="#111827">
+    <rect x="880" y="190" width="170" height="60" rx="10"/>
+    <rect x="880" y="270" width="170" height="80" rx="10"/>
+  </g>
+  <g text-anchor="middle" font-size="16" fill="#111827">
+    <text x="115" y="226">VAST S3 buckets</text>
+    <text x="330" y="226">VAST DataEngine</text>
+    <text x="655" y="226">VAST DataBase</text>
+    <text x="330" y="294" font-weight="700">CoreWeave GPUs</text>
+    <text x="330" y="318" font-size="13" fill="#6b7280">Models</text>
+    <text x="330" y="356" font-size="14">NVIDIA Cosmos Reason</text>
+    <text x="330" y="398" font-size="14">NVIDIA Cosmos Embed</text>
+    <text x="330" y="440">YOLO</text>
+  </g>
+  <g text-anchor="middle" font-size="16" fill="#ffffff">
+    <text x="965" y="217" font-weight="700">Cursor</text>
+    <text x="965" y="238">Coding Agent</text>
+    <text x="965" y="304" font-weight="700">Weights &amp; Biases</text>
+    <text x="965" y="328">Serverless Inference</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="2" fill="none">
+    <path d="M30 487 V497 H850 V487"/>
+    <path d="M880 487 V497 H1050 V487"/>
+  </g>
+  <g text-anchor="middle" fill="#374151" font-size="14" font-weight="600">
+    <text x="440" y="521">pre-built, already running</text>
+    <text x="965" y="521">you build</text>
+  </g>
+</svg>

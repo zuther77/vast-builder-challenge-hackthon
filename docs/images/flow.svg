@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 130" width="1220" height="130" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect width="1220" height="130" rx="12" fill="#F2F2F7"/>
+  <g font-size="19" text-anchor="middle" fill="#111827">
+    <g fill="#ffffff" stroke="#9ca3af" stroke-width="1.5">
+      <rect x="35" y="43" width="130" height="44" rx="8"/>
+      <rect x="195" y="43" width="130" height="44" rx="8"/>
+      <rect x="355" y="43" width="130" height="44" rx="8"/>
+      <rect x="515" y="43" width="130" height="44" rx="8"/>
+      <rect x="1075" y="43" width="110" height="44" rx="8"/>
+    </g>
+    <text x="100" y="70">Kickoff</text>
+    <text x="260" y="70">Launch VM</text>
+    <text x="420" y="70">Skills</text>
+    <text x="580" y="70">Test Drive</text>
+    <text x="1130" y="70">Ship <tspan font-size="30">🐿️</tspan></text>
+  </g>
+  <g stroke="#6b7280" stroke-width="2" fill="none">
+    <line x1="167" y1="65" x2="193" y2="65" marker-end="url(#a)"/>
+    <line x1="327" y1="65" x2="353" y2="65" marker-end="url(#a)"/>
+    <line x1="487" y1="65" x2="513" y2="65" marker-end="url(#a)"/>
+    <line x1="647" y1="65" x2="693" y2="65" marker-end="url(#a)"/>
+    <line x1="887" y1="65" x2="915" y2="65" marker-end="url(#a)"/>
+    <line x1="1047" y1="65" x2="1073" y2="65" marker-end="url(#a)"/>
+  </g>
+  <rect x="695" y="33" width="190" height="64" rx="10" fill="#111827"/>
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="12" text-anchor="middle" fill="#ffffff" fill-opacity="0.3" letter-spacing="3">
+    <text x="790" y="49">1010010110100110</text>
+    <text x="790" y="89">0110100101101001</text>
+  </g>
+  <text x="790" y="73" font-size="30" font-weight="700" text-anchor="middle" fill="#ffffff" letter-spacing="2">BUILD</text>
+  <text x="981" y="72" font-size="26" letter-spacing="6" text-anchor="middle">🍕🍕🍕</text>
+</svg>

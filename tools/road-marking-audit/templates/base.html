@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Road Marking Audit{% endblock %}</title>
+  <style>
+    :root {
+      --bg: #10151c;
+      --panel: #1a212b;
+      --panel-2: #212a36;
+      --line: #2d3947;
+      --text: #e6ecf3;
+      --muted: #919fae;
+      --accent: #4da3ff;
+      --green: #2e9e5b;
+      --amber: #d9a021;
+      --orange: #e07030;
+      --red: #d64545;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    header.top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 24px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+    header.top .brand { font-size: 17px; font-weight: 600; }
+    header.top nav { display: flex; gap: 16px; }
+    header.top nav a { color: var(--muted); padding: 4px 2px; }
+    header.top nav a.active,
+    header.top nav a:hover { color: var(--text); border-bottom: 2px solid var(--accent); }
+    header.top .spacer { flex: 1; }
+    header.top .mode {
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 2px 10px;
+    }
+    main { max-width: 1180px; margin: 0 auto; padding: 24px; }
+    h1 { font-size: 22px; margin: 0 0 6px; }
+    h2 { font-size: 17px; margin: 0 0 12px; }
+    .subtitle { color: var(--muted); margin: 0 0 24px; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    /* Stats strip */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .stat .value { font-size: 26px; font-weight: 600; }
+    .stat .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    /* Chips */
+    .chip {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 12px;
+      padding: 2px 10px;
+      white-space: nowrap;
+    }
+    .chip.type { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
+    .chip.cond-0 { background: rgba(46, 158, 91, 0.18); color: #6ccf97; border: 1px solid rgba(46, 158, 91, 0.5); }
+    .chip.cond-1 { background: rgba(217, 160, 33, 0.16); color: #ecc06a; border: 1px solid rgba(217, 160, 33, 0.5); }
+    .chip.cond-2 { background: rgba(224, 112, 48, 0.16); color: #f09a6a; border: 1px solid rgba(224, 112, 48, 0.5); }
+    .chip.cond-3 { background: rgba(214, 69, 69, 0.16); color: #f08a8a; border: 1px solid rgba(214, 69, 69, 0.5); }
+    /* Filter bar */
+    .filters fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0; }
+    .filters legend { font-size: 12px; color: var(--muted); padding: 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .filter-grid { display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch; }
+    .filter-grid > fieldset { flex: 1 1 220px; }
+    .checks { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+    .checks label { display: flex; align-items: center; gap: 5px; font-size: 13px; cursor: pointer; }
+    select, button {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 13px;
+    }
+    .slider-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .slider-row input[type=range] { flex: 1; accent-color: var(--accent); }
+    .filter-actions { margin-top: 12px; display: flex; gap: 10px; align-items: center; }
+    /* Street cards */
+    .street-card { margin-bottom: 20px; }
+    .street-card header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .street-card header .name { font-size: 17px; font-weight: 600; }
+    .street-card header .meta { font-size: 13px; color: var(--muted); }
+    table.breakdown { border-collapse: collapse; margin-bottom: 12px; font-size: 12px; }
+    table.breakdown th, table.breakdown td {
+      border: 1px solid var(--line);
+      padding: 3px 8px;
+      text-align: center;
+    }
+    table.breakdown th { color: var(--muted); font-weight: 500; background: var(--panel-2); }
+    table.breakdown td.zero { color: var(--line); }
+    .finding {
+      display: grid;
+      grid-template-columns: 130px 150px 120px 150px 1fr 110px;
+      gap: 12px;
+      align-items: start;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      cursor: pointer;
+    }
+    .finding .conf { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .finding .conf .bar { flex: 1; height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; }
+    .finding .conf .bar i { display: block; height: 100%; background: var(--accent); }
+    .finding .meta { font-size: 12px; color: var(--muted); }
+    .finding .note { font-size: 13px; }
+    .finding .hint { font-size: 12px; color: var(--accent); white-space: nowrap; text-align: right; }
+    .finding .evidence { display: none; grid-column: 1 / -1; }
+    .finding.open .evidence { display: block; }
+    .triptych { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .triptych .cell {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .triptych .cell.unavailable { opacity: 0.55; font-style: italic; }
+    .triptych .cell .role {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .triptych .cell .t { color: var(--text); font-weight: 600; margin-right: 10px; }
+    .triptych .cell video { width: 100%; max-height: 220px; border-radius: 6px; background: #000; }
+    /* Object exposure histogram */
+    .histogram .bar-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 70px;
+      gap: 10px;
+      align-items: center;
+      margin: 6px 0;
+      font-size: 13px;
+    }
+    .histogram .bar-row .bar-track { height: 16px; background: var(--panel-2); border-radius: 4px; overflow: hidden; }
+    .histogram .bar-row .bar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+    .chip.flag { background: rgba(214, 69, 69, 0.16); color: #f08a8a; border: 1px solid rgba(214, 69, 69, 0.5); }
+    .empty { color: var(--muted); padding: 32px 0; text-align: center; }
+    /* Report */
+    .report-street { margin-bottom: 24px; }
+    .report-street header { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+    .rank { font-size: 13px; color: var(--muted); }
+    .severity { font-size: 13px; color: var(--muted); }
+    .severity b { color: var(--text); font-size: 16px; }
+    .cond-counts { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; }
+    .cond-count { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+    .narrative { margin: 10px 0 14px; font-size: 14px; }
+    table.findings { width: 100%; border-collapse: collapse; font-size: 13px; }
+    table.findings th, table.findings td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
+    table.findings th { color: var(--muted); font-weight: 500; background: var(--panel-2); }
+    footer.bottom { color: var(--muted); font-size: 12px; text-align: center; padding: 24px; border-top: 1px solid var(--line); margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <span class="brand">Road Marking Audit</span>
+    <nav>
+      <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Findings board</a>
+      <a href="/report" class="{{ 'active' if request.path == '/report' else '' }}">Audit report</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="mode">backend: {{ client_mode }}</span>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="bottom">
+    Road Marking Audit Dashboard for the VAST Builders Challenge. Mock data
+    mirrors the VSS search API; swap the backend with the VSS_CLIENT env var.
+  </footer>
+</body>
+</html>

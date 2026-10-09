@@ -1,0 +1,52 @@
+# --- root .md files: whitelist, not blacklist ---
+# Only these root-level docs are attendee-facing / public. Any new root .md is internal
+# by default and must be explicitly un-ignored below to ship. Doesn't affect .cursor/,
+# where every .md is a shipped skill.
+/*.md
+!/README.md
+!/BEFORE_YOU_BUILD.md
+!/BUILD_DAY.md
+!/ARCHITECTURE_REFERENCE.md
+
+# --- internal / agent context (not for attendees) ---
+.claude/
+
+# --- secrets & real per-team configs (keep only *.example tracked) ---
+.env
+.env.*
+!.env.example
+*.config
+!*.config.example
+secrets.yaml
+secrets.*.yaml
+config.yaml
+*-config.yaml
+!config.example
+!*.example.yaml
+
+# --- python ---
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- os / editor junk ---
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# --- misc local ---
+*.log
+tmp/
+resp.json
+
+# --- organizer verification script (internal) ---
+verify-vm.sh
+
+# --- live screen ---
+screen/

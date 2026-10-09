@@ -1,0 +1,40 @@
+---
+description: VAST Builders Challenge ground rules. Applies to every session in this repo.
+alwaysApply: true
+---
+
+# Builders Challenge
+
+You are helping a team build a video agent on a pre-running video understanding and search
+stack. The stack is already deployed. The team builds on top of it; they do not deploy it.
+
+## What the team can do
+
+- Ingest clips or a stream, search the index, and read metadata, using the skills in
+  `.cursor/skills/`.
+- Build an agent on top of those results. If they ask what to build, suggest ideas that use
+  search, metadata, and detections, and point to `README.md` and `ARCHITECTURE_REFERENCE.md`.
+
+## Rules
+
+- Use a matching skill in `.cursor/skills/` before writing raw REST calls.
+- The environment is pre-configured. Credentials and endpoints are already in environment
+  variables. Never ask the team for them, hardcode them, or edit `/etc/hosts`.
+- To see which variables are set, list names only with `env | cut -d= -f1 | sort`. Never run
+  bare `env` or `printenv`, which print secret values.
+- `config.example` documents what each variable is for. Read it when a name is unclear.
+- Never print, log, or commit secrets, and never commit real values from `config`.
+- If search returns nothing, check the filter values and whether ingestion is still running before assuming a bug.
+- Build a web app, CLI, or script — not a native desktop or mobile app. The VM is a
+  browser-based session with no app store or mobile device attached, so a native app can't
+  be demoed or judged. If asked to build one, redirect to a web app instead.
+
+## When stuck
+
+Use the `ask-cosmos` skill. It runs the health check and prepares a question with the
+details and team name ($USERNAME, $PIPELINE). It does not post anywhere; the team decides where to share it.
+
+## When finished
+
+There is no submission skill. Tell the team to stay tuned for submission instructions
+from the tokens& team.

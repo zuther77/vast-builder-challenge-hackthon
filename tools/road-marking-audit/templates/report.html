@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Audit report - Road Marking Audit{% endblock %}
+{% block content %}
+<h1>Audit report</h1>
+<p class="subtitle">Per-street ranked findings with a severity score and a
+narrative summary, generated from the audited sightings.</p>
+
+<div class="stats">
+  <div class="stat"><div class="value">{{ total_findings }}</div><div class="label">Findings audited</div></div>
+  <div class="stat"><div class="value">{{ streets|length }}</div><div class="label">Streets ranked</div></div>
+  <div class="stat"><div class="value">{{ unattributed }}</div><div class="label">Unattributed sightings</div></div>
+  <div class="stat"><div class="value">{{ streets[0].street if streets else '-' }}</div><div class="label">Highest risk</div></div>
+</div>
+
+{% for entry in streets %}
+<section class="panel report-street">
+  <header>
+    <span class="rank">#{{ entry.rank }}</span>
+    <span class="name" style="font-size:17px;font-weight:600">{{ entry.street }}</span>
+    <span class="severity">risk <b>{{ entry.risk }}</b></span>
+    <span class="severity">{{ entry.total }} findings &middot; {{ entry.non_intact }} non-intact
+      ({{ entry.pct_non_intact }}%) &middot; {{ entry.high_pedestrian }} high-pedestrian exposure
+      &middot; {{ entry.segments }} segments</span>
+  </header>
+  <div class="cond-counts">
+    {% for condition, count in entry.counts.items() %}
+    <span class="cond-count">
+      <span class="chip cond {{ cond_class[condition] }}">{{ condition_labels[condition] }}</span>
+      {{ count }}
+    </span>
+    {% endfor %}
+  </div>
+  {# Narrative is canned mock text today; main.py street_narrative() holds the
+     TODO for the phase-2 W&B serverless LLM call over matched captions. #}
+  <p class="narrative">{{ entry.narrative }}</p>
+  <table class="findings">
+    <tr>
+      <th>Type</th><th>Condition</th><th>Confidence</th><th>Camera</th>
+      <th>Captured</th><th>Exposure</th><th>Note</th>
+    </tr>
+    {% for finding in entry.findings %}
+    <tr>
+      <td><span class="chip type">{{ finding.type.replace('_', ' ') }}</span></td>
+      <td><span class="chip cond {{ cond_class[finding.condition] }}">{{ condition_labels[finding.condition] }}</span></td>
+      <td>{{ '%.2f'|format(finding.confidence) }}</td>
+      <td>{{ finding.camera_id }}</td>
+      <td>{{ finding.captured_at }}</td>
+      <td>{{ finding.person_count }} persons
+        {%- if finding.high_pedestrian %}
+        <span class="chip flag">high-pedestrian exposure</span>
+        {%- endif %}
+      </td>
+      <td>{{ finding.note }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endfor %}
+
+{% if not streets %}
+<div class="empty">No attributed findings in the corpus.</div>
+{% endif %}
+{% endblock %}

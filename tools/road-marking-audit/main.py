@@ -222,16 +222,17 @@ def street_narrative(entry):
                 f"Write a concise 3-sentence audit summary explaining the findings and priority recommendation."
             )
             req = urllib.request.Request(
-                "https://api.wandb.ai/v1/chat/completions",
+                "https://api.inference.wandb.ai/v1/chat/completions",
                 data=json.dumps({
-                    "model": "meta-llama/llama-3.1-8b-instruct",
+                    "model": "meta-llama/Llama-3.1-8B-Instruct",
                     "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 120,
+                    "max_tokens": 140,
                     "temperature": 0.2,
                 }).encode("utf-8"),
                 headers={
                     "Authorization": f"Bearer {wandb_key}",
                     "Content-Type": "application/json",
+                    "User-Agent": "StreetAudit/1.0",
                 },
                 method="POST",
             )
@@ -314,14 +315,14 @@ def build_report(findings, person_threshold):
                                           > person_threshold)
         ordered = sorted(
             street_findings,
-            key=lambda f: (CONDITION_RISK_WEIGHTS[f["condition"]],
+            key=lambda f: (CONDITION_RISK_WEIGHTS.get(f["condition"], 1.0),
                            f["confidence"]),
             reverse=True)
         counts = {c: 0 for c in CONDITIONS}
         for finding in street_findings:
-            counts[finding["condition"]] += 1
+            counts[finding["condition"]] = counts.get(finding["condition"], 0) + 1
         risk = round(sum(
-            CONDITION_RISK_WEIGHTS[f["condition"]] * f["person_count"]
+            CONDITION_RISK_WEIGHTS.get(f["condition"], 1.0) * f["person_count"]
             for f in street_findings), 1)
         non_intact = sum(counts[c] for c in NON_INTACT_CONDITIONS)
         entry = {
@@ -356,12 +357,93 @@ def inject_globals():
 
 
 # ---------------------------------------------------------------------------
-# Agent prompt window: deterministic mock Q&A over the corpus.
-# TODO(phase 2): replace agent_answer with a W&B serverless LLM call
-# (WANDB_* env vars) over the matched captions, cached by question so
-# identical questions return identical answers. Evidence rows stay the
-# same: rank the findings the answer cites and show their clips.
+# Agent prompt window: grounded Q&A over the corpus.
+# Powered by Weights & Biases serverless LLM (meta-llama/Llama-3.1-8B-Instruct)
+# with query-level caching and fallback to deterministic intent matching.
+# Evidence rows rank the cited findings and provide video clips for playback.
 # ---------------------------------------------------------------------------
+
+_agent_answer_cache = {}
+
+
+def _generate_llm_answer(question, matched, all_findings):
+    """Generate an authoritative answer using W&B serverless LLM."""
+    wandb_key = os.environ.get("WANDB_API_KEY")
+    if not wandb_key:
+        return None
+
+    import json
+    import urllib.request
+
+    streets = {}
+    for f in all_findings:
+        st = f["street"]
+        if st == "unknown":
+            continue
+        if st not in streets:
+            streets[st] = {"total": 0, "non_intact": 0, "risk": 0.0, "ped": 0}
+        streets[st]["total"] += 1
+        if f["condition"] in NON_INTACT_CONDITIONS:
+            streets[st]["non_intact"] += 1
+        streets[st]["ped"] += f.get("person_count", 0)
+        streets[st]["risk"] += CONDITION_RISK_WEIGHTS.get(f["condition"], 1.0) * f.get("person_count", 0)
+
+    ranked_streets = sorted(streets.items(), key=lambda kv: (-kv[1]["risk"], kv[0]))
+    street_summaries = [
+        f"- {st}: {data['total']} findings ({data['non_intact']} non-intact), "
+        f"{data['ped']} pedestrians detected, Risk Score: {data['risk']:.0f}"
+        for st, data in ranked_streets[:6]
+    ]
+
+    matched_samples = []
+    for f in (matched or all_findings)[:8]:
+        matched_samples.append(
+            f"- {f['street']}: {f['type'].replace('_', ' ')} ({f['condition'].replace('_', ' ')}, "
+            f"conf {f['confidence']:.2f}, {f.get('person_count', 0)} pedestrians) - Note: {f['note']}"
+        )
+
+    context = (
+        f"Audited Video Corpus Summary:\n"
+        f"Total Sightings: {len(all_findings)}\n"
+        f"Key Streets Audited:\n" + "\n".join(street_summaries) + "\n\n"
+        f"Corpus Evidence Samples:\n" + "\n".join(matched_samples)
+    )
+
+    system_prompt = (
+        "You are StreetAudit, an expert municipal traffic and bicycle safety engineer in New York City. "
+        "Answer the user's question directly, accurately, and concisely (2 to 3 sentences) based ONLY on the provided audit findings. "
+        "Mention specific street names, marking conditions (e.g., faded, missing, intact), pedestrian safety risks, and maintenance priorities when relevant."
+    )
+    user_prompt = f"{context}\n\nUser Question: {question}"
+
+    try:
+        req = urllib.request.Request(
+            "https://api.inference.wandb.ai/v1/chat/completions",
+            data=json.dumps({
+                "model": "meta-llama/Llama-3.1-8B-Instruct",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                "max_tokens": 160,
+                "temperature": 0.2,
+            }).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {wandb_key}",
+                "Content-Type": "application/json",
+                "User-Agent": "StreetAudit/1.0",
+            },
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            content = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+            if content:
+                return content
+    except Exception:
+        pass
+    return None
+
 
 RISK_INTENT_WORDS = ("worst", "repaint", "priorit", "risk", "first",
                      "urgent", "schedule")
@@ -388,7 +470,7 @@ def _detect_street(question, findings):
 def _evidence(findings, limit=5):
     """Top findings backing an answer: worst condition, then confidence."""
     ordered = sorted(findings,
-                     key=lambda f: (CONDITION_RISK_WEIGHTS[f["condition"]],
+                     key=lambda f: (CONDITION_RISK_WEIGHTS.get(f["condition"], 1.0),
                                     f["confidence"]),
                      reverse=True)
     return [{
@@ -399,6 +481,10 @@ def _evidence(findings, limit=5):
         "captured_at": f["captured_at"],
         "start_sec": f["start_sec"],
         "note": f["note"],
+        "stream_url": f.get("stream_url") or f.get("event_stream_url"),
+        "confidence": f.get("confidence", 0.0),
+        "person_count": f.get("person_count", 0),
+        "source": f.get("source"),
     } for f in ordered[:limit]]
 
 
@@ -407,7 +493,7 @@ def _street_summary(street, street_findings):
     total = len(street_findings)
     non_intact = sum(1 for f in street_findings
                      if f["condition"] in NON_INTACT_CONDITIONS)
-    risk = sum(CONDITION_RISK_WEIGHTS[f["condition"]] * f["person_count"]
+    risk = sum(CONDITION_RISK_WEIGHTS.get(f["condition"], 1.0) * f["person_count"]
                for f in street_findings)
     high_ped = sum(1 for f in street_findings if f["high_pedestrian"])
     return (
@@ -431,7 +517,7 @@ def _risk_ranking(matched, limit=3):
         if street == "unknown":
             continue
         by_street[street] = by_street.get(street, 0) + (
-            CONDITION_RISK_WEIGHTS[finding["condition"]]
+            CONDITION_RISK_WEIGHTS.get(finding["condition"], 1.0)
             * finding["person_count"])
     ranked = sorted(by_street.items(), key=lambda kv: (-kv[1], kv[0]))
     return ", ".join("{} (risk {:.0f})".format(street, risk)
@@ -439,17 +525,21 @@ def _risk_ranking(matched, limit=3):
 
 
 def agent_answer(question, findings, person_threshold):
-    """Deterministic mock answer to a plain-language audit question.
+    """Answer a plain-language audit question with grounded evidence clips.
 
-    Intent detection: street name > marking type > condition > risk ranking,
-    composed over the same findings the board and report show. Phase 2
-    replaces this with a W&B serverless LLM over the matched captions.
+    Uses W&B serverless LLM (meta-llama/Llama-3.1-8B-Instruct) when available,
+    with query-caching and graceful fallback to the deterministic intent engine.
+    Top corroborating evidence clips are always ranked and attached.
     """
-    question = " ".join(question.lower().split())
-    street = _detect_street(question, findings)
-    marking_types = _detect_all(question, TYPE_ALIASES, MARKING_TYPES)
-    conditions = _detect_all(question, CONDITION_ALIASES, CONDITIONS)
-    risk_intent = any(word in question for word in RISK_INTENT_WORDS)
+    clean_q = " ".join(question.strip().lower().split())
+    if clean_q in _agent_answer_cache:
+        cached_ans, cached_ev = _agent_answer_cache[clean_q]
+        return cached_ans, cached_ev
+
+    street = _detect_street(clean_q, findings)
+    marking_types = _detect_all(clean_q, TYPE_ALIASES, MARKING_TYPES)
+    conditions = _detect_all(clean_q, CONDITION_ALIASES, CONDITIONS)
+    risk_intent = any(word in clean_q for word in RISK_INTENT_WORDS)
 
     for finding in findings:
         finding["high_pedestrian"] = finding["person_count"] > person_threshold
@@ -462,6 +552,14 @@ def agent_answer(question, findings, person_threshold):
     if conditions:
         matched = [f for f in matched if f["condition"] in conditions]
 
+    # Attempt LLM answer with full audit corpus context
+    llm_ans = _generate_llm_answer(question, matched, findings)
+    if llm_ans:
+        ev = _evidence(matched if matched else findings)
+        _agent_answer_cache[clean_q] = (llm_ans, ev)
+        return llm_ans, ev
+
+    # Deterministic fallback
     if matched:
         non_intact = sum(1 for f in matched
                          if f["condition"] in NON_INTACT_CONDITIONS)
@@ -499,17 +597,22 @@ def agent_answer(question, findings, person_threshold):
             ranked = _risk_ranking(matched, limit=1)
             if ranked:
                 parts.append("By risk, repaint {} first.".format(ranked))
-        return " ".join(parts), _evidence(matched)
+        ev = _evidence(matched)
+        ans = " ".join(parts)
+        _agent_answer_cache[clean_q] = (ans, ev)
+        return ans, ev
 
     # Nothing matched the detected intent.
     if street:
-        return ("No sightings of {} were attributed in this corpus. The "
-                "street may appear only with unknown attribution -- check "
-                "the unattributed stat on the audit report.").format(street), []
-    return ("I could not match that to the audit data. Ask me about a "
-            "street (e.g. Don Mills Rd), a marking type (crosswalk, stop "
-            "line, bus box...), a condition (faded, partial, missing), or "
-            "which street to repaint first."), []
+        ans = ("No sightings of {} were attributed in this corpus. The "
+               "street may appear only with unknown attribution -- check "
+               "the unattributed stat on the audit report.").format(street)
+        return ans, []
+    ans = ("I could not match that to the audit data. Ask me about a "
+           "street (e.g. Don Mills Rd), a marking type (crosswalk, stop "
+           "line, bus box...), a condition (faded, partial, missing), or "
+           "which street to repaint first.")
+    return ans, []
 
 
 @app.route("/health")

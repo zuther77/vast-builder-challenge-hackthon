@@ -160,5 +160,53 @@ class TestLiveVSSClient(unittest.TestCase):
                 self.assertEqual(s["type"], "crosswalk")
 
 
+class TestAgentAnswerAndEvidence(unittest.TestCase):
+    def setUp(self):
+        from main import _evidence, agent_answer, flatten_findings
+        self._evidence = _evidence
+        self.agent_answer = agent_answer
+        self.flatten_findings = flatten_findings
+
+    def test_evidence_structure_and_stream_url(self):
+        sample_findings = [{
+            "type": "crosswalk",
+            "condition": "worn",
+            "street": "Broadway",
+            "camera_id": "cam-1",
+            "captured_at": "2026-10-09 12:00:00",
+            "start_sec": 10.0,
+            "note": "faded paint",
+            "confidence": 0.85,
+            "person_count": 4,
+            "source": "s3://b/seg.mp4",
+            "stream_url": "http://stream/url.mp4",
+        }]
+        ev = self._evidence(sample_findings)
+        self.assertEqual(len(ev), 1)
+        self.assertEqual(ev[0]["stream_url"], "http://stream/url.mp4")
+        self.assertEqual(ev[0]["confidence"], 0.85)
+        self.assertEqual(ev[0]["person_count"], 4)
+
+    def test_agent_answer_grounded_response(self):
+        sample_findings = [{
+            "id": "seg-1-0",
+            "type": "crosswalk",
+            "condition": "worn",
+            "street": "Central Park West",
+            "camera_id": "cam-1",
+            "captured_at": "2026-10-09 12:00:00",
+            "start_sec": 10.0,
+            "note": "faded paint",
+            "confidence": 0.9,
+            "person_count": 8,
+            "stream_url": "http://stream/url.mp4",
+        }]
+        answer, evidence = self.agent_answer("Which street should be repainted first?", sample_findings, 2)
+        self.assertTrue(len(answer) > 0)
+        self.assertTrue(len(evidence) > 0)
+        self.assertEqual(evidence[0]["street"], "Central Park West")
+        self.assertEqual(evidence[0]["stream_url"], "http://stream/url.mp4")
+
+
 if __name__ == "__main__":
     unittest.main()

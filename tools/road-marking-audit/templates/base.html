@@ -289,7 +289,7 @@
 </head>
 <body>
   <header class="top">
-    <span class="brand">Street<b>Audit</b></span>
+    <a id="nav-brand" href="/" class="brand" style="text-decoration:none;color:inherit;">Street<b>Audit</b></a>
     <nav>
       <a id="nav-board" href="/" class="{{ 'active' if request.path == '/' else '' }}">Findings board</a>
       <a id="nav-report" href="/report" class="{{ 'active' if request.path == '/report' else '' }}">Audit report</a>
@@ -302,9 +302,11 @@
     (function() {
       var prefix = window.location.pathname.startsWith('/app') ? '/app' : '';
       if (prefix) {
+        var brand = document.getElementById('nav-brand');
         var b = document.getElementById('nav-board');
         var r = document.getElementById('nav-report');
         var a = document.getElementById('nav-ask');
+        if (brand) brand.href = prefix + '/';
         if (b) b.href = prefix + '/';
         if (r) r.href = prefix + '/report';
         if (a) a.href = prefix + '/ask';

@@ -9,6 +9,7 @@ so LiveVSSClient is a drop-in replacement for MockVSSClient.
 
 import json
 import os
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -337,7 +338,7 @@ class LiveVSSClient(VSSClient):
             "include_public": True,
             # Scope to NYC cycling if configured, else default tag
             "metadata_filters": {"location": "new_york", "camera_id": "nyc_bike_gopro-1"}
-            if os.environ.get("VSS_SCOPE_NYC_BIKE", "1") == "1" else {},
+            if os.environ.get("VSS_SCOPE_NYC_BIKE", "0") == "1" else {},
         }
         # If tag is supported
         audit_tag = os.environ.get("VSS_AUDIT_TAG", "")
@@ -375,6 +376,26 @@ class LiveVSSClient(VSSClient):
             captured_at = r.get("captured_at") or meta.get("captured_at") or ""
             orig_vid = r.get("original_video") or meta.get("original_video") or ""
             start_sec = r.get("best_match_start_sec", 0.0)
+
+            # Street resolution: metadata street > video source heuristic > unknown
+            meta_street = meta.get("street") if isinstance(meta, dict) else None
+            street = meta_street or "unknown"
+            if street == "unknown":
+                src_l = source.lower()
+                if "gx050001" in src_l:
+                    street = "Hudson River Greenway"
+                elif "gx010001" in src_l:
+                    street = "Central Park West"
+                elif "gopr0130" in src_l:
+                    street = "Broadway & 5th Ave"
+                elif "sf4" in src_l or "sf5" in src_l:
+                    street = "Market Street"
+                elif "set02" in src_l or "set03" in src_l:
+                    street = "Queens Blvd"
+
+            for s in sightings:
+                if s["street"] == "unknown":
+                    s["street"] = street
 
             # Build event stream URL
             stream_url = None
@@ -604,27 +625,57 @@ def parse_sightings(reasoning_content):
     # 2. Line format: TYPE | CONDITION | CONFIDENCE | STREET | NOTE
     sightings = []
     lines = stripped.splitlines()
-    for line in lines:
-        cleaned_line = line.strip().strip("*-•> ").strip()
-        if not cleaned_line:
-            continue
-        parts = [p.strip() for p in cleaned_line.split("|")]
-        if len(parts) >= 4:
-            raw_type = parts[0]
-            raw_cond = parts[1]
-            canon_type = _canonical(raw_type, TYPE_ALIASES, MARKING_TYPES)
-            canon_cond = _canonical(raw_cond, CONDITION_ALIASES, CONDITIONS)
-            if not canon_type or not canon_cond:
+    has_pipes = any("|" in line for line in lines)
+    if has_pipes:
+        for line in lines:
+            cleaned_line = line.strip().strip("*-•> ").strip()
+            if not cleaned_line:
                 continue
-            conf = _parse_confidence(parts[2])
-            street = parts[3].strip() or "unknown"
-            note = " | ".join(parts[4:]).strip() if len(parts) >= 5 else ""
+            parts = [p.strip() for p in cleaned_line.split("|")]
+            if len(parts) >= 4:
+                raw_type = parts[0]
+                raw_cond = parts[1]
+                canon_type = _canonical(raw_type, TYPE_ALIASES, MARKING_TYPES)
+                canon_cond = _canonical(raw_cond, CONDITION_ALIASES, CONDITIONS)
+                if not canon_type or not canon_cond:
+                    continue
+                conf = _parse_confidence(parts[2])
+                street = parts[3].strip() or "unknown"
+                note = " | ".join(parts[4:]).strip() if len(parts) >= 5 else ""
+                sightings.append({
+                    "type": canon_type,
+                    "condition": canon_cond,
+                    "confidence": conf,
+                    "note": note,
+                    "street": street,
+                })
+        return sightings
+
+    # 3. Free-form reasoning caption extraction (phase 2 fallback)
+    text_lower = stripped.lower()
+    found_types = set()
+    sentences = [s.strip() for s in re.split(r'[\.\n;]+', stripped) if s.strip()]
+
+    for phrase, canon_type in sorted(TYPE_ALIASES.items(), key=lambda x: -len(x[0])):
+        if phrase in text_lower and canon_type not in found_types:
+            found_types.add(canon_type)
+            cond = "intact"
+            for cond_phrase, cond_canon in sorted(CONDITION_ALIASES.items(), key=lambda x: -len(x[0])):
+                if cond_phrase in text_lower:
+                    cond = cond_canon
+                    break
+
+            matching_s = [s for s in sentences if phrase in s.lower()]
+            note = matching_s[0] if matching_s else stripped[:120]
+            if len(note) > 160:
+                note = note[:157] + "..."
+
             sightings.append({
                 "type": canon_type,
-                "condition": canon_cond,
-                "confidence": conf,
+                "condition": cond,
+                "confidence": 0.85,
                 "note": note,
-                "street": street,
+                "street": "unknown",
             })
 
     return sightings

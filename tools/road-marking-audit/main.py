@@ -41,14 +41,22 @@ def client_mode():
     return os.environ.get("VSS_CLIENT", "mock").strip().lower()
 
 
+_client = None
+
+
 def get_client():
     """Return the VSS client selected by VSS_CLIENT (mock|live)."""
+    global _client
     mode = client_mode()
+    if _client is not None and getattr(_client, "name", None) == mode:
+        return _client
     if mode == "live":
-        return LiveVSSClient()
+        _client = LiveVSSClient()
+        return _client
     if mode != "mock":
         raise ValueError("VSS_CLIENT must be 'mock' or 'live', got {!r}".format(mode))
-    return MockVSSClient()
+    _client = MockVSSClient()
+    return _client
 
 
 def parse_filters(args):
@@ -183,8 +191,14 @@ def compute_stats(findings):
     }
 
 
+_filter_options_cache = None
+
+
 def filter_options():
     """Camera and street options for the filter bar, derived from the corpus."""
+    global _filter_options_cache
+    if _filter_options_cache is not None:
+        return _filter_options_cache
     findings = flatten_findings(get_client().search(dict(NO_FILTERS)))
     cameras = []
     seen = set()
@@ -194,6 +208,7 @@ def filter_options():
             cameras.append({"id": finding["camera_id"],
                             "location": finding["location"]})
     streets = sorted({f["street"] for f in findings})
+    _filter_options_cache = (cameras, streets)
     return cameras, streets
 
 
@@ -701,5 +716,13 @@ def report():
 
 
 if __name__ == "__main__":
+    if client_mode() == "live":
+        try:
+            print("Warming up VSS corpus...")
+            get_client().search(dict(NO_FILTERS))
+            filter_options()
+            print("VSS corpus warm-up complete.")
+        except Exception as e:
+            print(f"Warning: warm-up failed: {e}")
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "8000")),
             debug=False)

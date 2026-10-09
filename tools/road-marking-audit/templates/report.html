@@ -53,9 +53,11 @@ narrative summary, generated from the audited sightings.</p>
       <td>
         {{ finding.note }}
         {%- if finding.stream_url %}
-        <details style="margin-top:6px;">
-          <summary style="color:var(--accent);font-size:12px;cursor:pointer;user-select:none;">▶ Watch clip</summary>
-          <video controls preload="none" src="{{ finding.stream_url }}" style="max-width:320px;width:100%;border-radius:6px;margin-top:6px;border:1px solid var(--line);background:#000;display:block;"></video>
+        <details class="clip-details" style="margin-top:6px;">
+          <summary style="color:var(--accent);font-size:12px;cursor:pointer;user-select:none;font-weight:500;">▶ Watch clip</summary>
+          <div style="margin-top:6px;max-width:340px;">
+            <video controls preload="none" data-src="{{ finding.stream_url }}" style="width:100%;border-radius:6px;border:1px solid var(--line);background:#000;display:block;"></video>
+          </div>
         </details>
         {%- endif %}
       </td>
@@ -68,4 +70,21 @@ narrative summary, generated from the audited sightings.</p>
 {% if not streets %}
 <div class="empty">No attributed findings in the corpus.</div>
 {% endif %}
+
+<script>
+(function() {
+  document.querySelectorAll(".clip-details").forEach(function(details) {
+    details.addEventListener("toggle", function() {
+      var video = details.querySelector("video");
+      if (video && details.open && !video.src) {
+        var rawSrc = video.getAttribute("data-src");
+        if (rawSrc) {
+          video.src = rawSrc;
+          video.load();
+        }
+      }
+    });
+  });
+})();
+</script>
 {% endblock %}

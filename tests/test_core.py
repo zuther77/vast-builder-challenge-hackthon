@@ -142,13 +142,14 @@ class TestLiveVSSClient(unittest.TestCase):
         self.assertEqual(r0["camera_id"], "nyc_bike_gopro-1")
         self.assertEqual(r0["location"], "new_york")
         self.assertIn("stream_url", r0)
-        self.assertTrue(r0["stream_url"].startswith("http://mock-vss/api/v1/videos/stream"))
+        self.assertTrue(r0["stream_url"].startswith("/api/v1/videos/stream"))
         self.assertEqual(r0["object_counts"]["person"], 3)
         self.assertEqual(r0["object_counts"]["bicycle"], 2)
 
         # Check triptych after-clip
         self.assertEqual(r0["after_source"], "s3://bucket/test_chunk_segment_002_of_002.mp4")
         self.assertIsNotNone(r0["after_stream_url"])
+        self.assertTrue(r0["after_stream_url"].startswith("/api/v1/videos/stream"))
 
     def test_parity_filter_semantics_with_mock_client(self):
         mock_client = MockVSSClient()
@@ -179,11 +180,11 @@ class TestAgentAnswerAndEvidence(unittest.TestCase):
             "confidence": 0.85,
             "person_count": 4,
             "source": "s3://b/seg.mp4",
-            "stream_url": "http://stream/url.mp4",
+            "stream_url": "/api/v1/videos/stream?source=s3%3A%2F%2Fb%2Fseg.mp4&token=xyz",
         }]
         ev = self._evidence(sample_findings)
         self.assertEqual(len(ev), 1)
-        self.assertEqual(ev[0]["stream_url"], "http://stream/url.mp4")
+        self.assertEqual(ev[0]["stream_url"], "/api/v1/videos/stream?source=s3%3A%2F%2Fb%2Fseg.mp4&token=xyz")
         self.assertEqual(ev[0]["confidence"], 0.85)
         self.assertEqual(ev[0]["person_count"], 4)
 
@@ -199,13 +200,13 @@ class TestAgentAnswerAndEvidence(unittest.TestCase):
             "note": "faded paint",
             "confidence": 0.9,
             "person_count": 8,
-            "stream_url": "http://stream/url.mp4",
+            "stream_url": "/api/v1/videos/stream?source=s3%3A%2F%2Fb%2Fseg.mp4&token=xyz",
         }]
         answer, evidence = self.agent_answer("Which street should be repainted first?", sample_findings, 2)
         self.assertTrue(len(answer) > 0)
         self.assertTrue(len(evidence) > 0)
         self.assertEqual(evidence[0]["street"], "Central Park West")
-        self.assertEqual(evidence[0]["stream_url"], "http://stream/url.mp4")
+        self.assertEqual(evidence[0]["stream_url"], "/api/v1/videos/stream?source=s3%3A%2F%2Fb%2Fseg.mp4&token=xyz")
 
 
 if __name__ == "__main__":

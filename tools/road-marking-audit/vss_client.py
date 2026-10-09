@@ -397,11 +397,11 @@ class LiveVSSClient(VSSClient):
                 if s["street"] == "unknown":
                     s["street"] = street
 
-            # Build event stream URL
+            # Build event stream URL (use relative path /api/v1/videos/stream so it preserves protocol and port)
             stream_url = None
             if source:
                 quoted = urllib.parse.quote(source, safe="")
-                stream_url = f"{self.base_url}/api/v1/videos/stream?source={quoted}&token={token}"
+                stream_url = f"/api/v1/videos/stream?source={quoted}&token={token}"
 
             # Detections: use object_counts already in search response if present
             object_counts = {c: 0 for c in OBJECT_CLASSES}
@@ -436,7 +436,7 @@ class LiveVSSClient(VSSClient):
                         if b_source in by_source:
                             before_source = b_source
                             b_quoted = urllib.parse.quote(b_source, safe="")
-                            before_stream = f"{self.base_url}/api/v1/videos/stream?source={b_quoted}&token={token}"
+                            before_stream = f"/api/v1/videos/stream?source={b_quoted}&token={token}"
                             before_start = max(0.0, float(start_sec) - 5.0)
 
                     if seg_num < total_segs:
@@ -444,7 +444,7 @@ class LiveVSSClient(VSSClient):
                         if a_source in by_source:
                             after_source = a_source
                             a_quoted = urllib.parse.quote(a_source, safe="")
-                            after_stream = f"{self.base_url}/api/v1/videos/stream?source={a_quoted}&token={token}"
+                            after_stream = f"/api/v1/videos/stream?source={a_quoted}&token={token}"
                             after_start = float(start_sec) + 5.0
                 except Exception:
                     pass

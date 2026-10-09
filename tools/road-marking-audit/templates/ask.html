@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Ask the agent - StreetAudit{% endblock %}
+{% block content %}
+<h1>Ask the agent</h1>
+<p class="subtitle">Ask about the audited corpus in plain language: a street,
+a marking type, a condition, or what to repaint first. Answers come back with
+the clip evidence they are based on.</p>
+
+<section class="panel ask-panel">
+  <div class="ask-log" id="ask-log" aria-live="polite" aria-label="Agent answers">
+    <div class="placeholder" id="ask-placeholder">
+      Nothing asked yet. Try one of the suggestions below.
+    </div>
+  </div>
+
+  <div class="suggestions" id="suggestions" aria-label="Suggested questions">
+    {% for suggestion in suggestions %}
+    <button type="button" class="suggestion" data-question="{{ suggestion }}">
+      {{ suggestion }}
+    </button>
+    {% endfor %}
+  </div>
+
+  <form class="ask-form" id="ask-form">
+    <fieldset>
+      <legend for="ask-input">Your question</legend>
+      <textarea id="ask-input" name="question"
+        placeholder="e.g. Which streets have faded crosswalks?"></textarea>
+    </fieldset>
+    <div class="ask-actions">
+      <button type="submit" class="primary" id="ask-send">Ask</button>
+      <span class="hint-text">Enter to ask, Shift+Enter for a new line</span>
+    </div>
+  </form>
+</section>
+
+<script id="ask-data" type="application/json">{{ ask_data|tojson }}</script>
+<script>
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("ask-data").textContent);
+  var form = document.getElementById("ask-form");
+  var input = document.getElementById("ask-input");
+  var send = document.getElementById("ask-send");
+  var log = document.getElementById("ask-log");
+  var placeholder = document.getElementById("ask-placeholder");
+  var busy = false;
+
+  function esc(value) {
+    var div = document.createElement("div");
+    div.textContent = value == null ? "" : String(value);
+    return div.innerHTML;
+  }
+  function label(value) { return String(value).split("_").join(" "); }
+
+  function removePlaceholder() {
+    if (placeholder) {
+      placeholder.remove();
+      placeholder = null;
+    }
+  }
+
+  function addMessage(kind, html) {
+    removePlaceholder();
+    var div = document.createElement("div");
+    div.className = "ask-msg " + kind;
+    div.innerHTML = html;
+    log.appendChild(div);
+    return div;
+  }
+
+  function agentTag() {
+    return "StreetAudit agent" + (DATA.mode === "mock"
+      ? ' <span class="mock">&middot; mock data</span>' : "");
+  }
+
+  function typingMessage() {
+    return addMessage("agent",
+      '<span class="tag">' + agentTag() + "</span>" +
+      '<span class="typing" role="status" aria-label="Thinking"><i></i>' +
+      "<i></i><i></i></span>");
+  }
+
+  function evidenceList(evidence) {
+    if (!evidence || !evidence.length) { return ""; }
+    var rows = evidence.map(function (finding) {
+      return "<li>" +
+        '<span class="chip type">' + esc(label(finding.type)) + "</span> " +
+        '<span class="chip cond ' + esc(DATA.cond_class[finding.condition]) +
+          '">' + esc(label(finding.condition)) + "</span> " +
+        "<b>" + esc(finding.street) + "</b> &middot; " +
+        esc(finding.camera_id) +
+        ' <span class="when">' + esc(finding.captured_at) + " t=" +
+          finding.start_sec.toFixed(1) + "s</span>" +
+        "<br>" + esc(finding.note) +
+        "</li>";
+    });
+    return '<ul class="evidence">' + rows.join("") + "</ul>";
+  }
+
+  function ask(question) {
+    if (busy || !question.trim()) { return; }
+    busy = true;
+    send.disabled = true;
+    addMessage("user", esc(question));
+    var typing = typingMessage();
+    fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: question })
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        typing.remove();
+        if (!result.ok) {
+          addMessage("agent",
+            '<span class="tag">' + agentTag() + "</span>" +
+            esc(result.data.error || "Something went wrong."));
+          return;
+        }
+        addMessage("agent",
+          '<span class="tag">' + agentTag() + "</span>" +
+          esc(result.data.answer) + evidenceList(result.data.evidence));
+      })
+      .catch(function () {
+        typing.remove();
+        addMessage("agent",
+          '<span class="tag">' + agentTag() + "</span>" +
+          "Could not reach the agent. Check the connection and try again.");
+      })
+      .then(function () {
+        busy = false;
+        send.disabled = false;
+        input.focus();
+      });
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var question = input.value;
+    input.value = "";
+    ask(question);
+  });
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      var question = input.value;
+      input.value = "";
+      ask(question);
+    }
+  });
+  document.querySelectorAll("#suggestions .suggestion").forEach(function (chip) {
+    chip.addEventListener("click", function () { ask(chip.dataset.question); });
+  });
+})();
+</script>
+{% endblock %}

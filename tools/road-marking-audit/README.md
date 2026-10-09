@@ -1,4 +1,4 @@
-# Road Marking Audit Dashboard
+# StreetAudit
 
 Flask dashboard answering "Which streets have missing or partial road
 markings?" over the team's pre-indexed dashcam video archive. Currently runs
@@ -28,6 +28,16 @@ Serves on http://localhost:8000 (override with the PORT env var).
   `min_confidence`; returns `{"findings": [...], "stats": {...},
   "histogram": [...]}` where histogram carries YOLO object counts aggregated
   over the segments in the current view (each segment counted once).
+- `/ask` - agent prompt window: plain-language Q&A over the corpus
+  (street, marking type, condition, or what to repaint first) with the
+  clip evidence each answer is based on. Suggestion chips seed the first
+  questions; answers are labeled as agent output (and as mock data in
+  mock mode).
+- `/api/ask` - JSON API behind the prompt window. POST `{"question": ...}`;
+  returns `{"answer": str, "evidence": [...], "mode": "mock"}` where
+  evidence rows carry the type, condition, street, camera, timestamp and
+  note of the findings the answer cites. Answers are deterministic in mock
+  mode (intent matching over the corpus via the vss_client alias tables).
 - `/health` - returns `{"status": "ok"}`.
 
 ## Backend selection
@@ -77,7 +87,9 @@ VSS_CLIENT=live python main.py   # phase 2; stub raises NotImplementedError
    `/videos/detections` per segment for drill-down.
 4. `main.py street_narrative()` - marked TODO; replace the canned text with
    a W&B serverless LLM call over the matched captions, with caching so the
-   same query returns the same report.
+   same query returns the same report. Same for `main.py agent_answer()`,
+   which backs the agent prompt window: the LLM replaces the deterministic
+   intent matching, evidence ranking and the response shape stay.
 5. K8s deploy via `deploy-app-no-registry` (Ingress strips `/app`); the app
    must stay under ~1 MiB total (ConfigMap limit), hence inline CSS/JS and
    no external assets.

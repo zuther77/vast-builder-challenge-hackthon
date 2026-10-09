@@ -1,9 +1,11 @@
-"""Road Marking Audit Dashboard -- Flask app.
+"""StreetAudit -- road marking audit dashboard (Flask app).
 
 Routes:
     /              findings board (filter bar, stats strip, street cards)
     /report        per-street audit report (risk ranking + narrative)
+    /ask           agent prompt window (plain-language Q&A over the corpus)
     /api/findings  JSON API backing the findings board
+    /api/ask       JSON API backing the agent prompt window
     /health        health check for the K8s deploy
 
 Backend selection: env var VSS_CLIENT (mock|live), default mock. All backend
@@ -17,11 +19,13 @@ import statistics
 from flask import Flask, jsonify, render_template, request
 
 from vss_client import (
+    CONDITION_ALIASES,
     CONDITIONS,
     CONDITION_RISK_WEIGHTS,
     MARKING_TYPES,
     NON_INTACT_CONDITIONS,
     OBJECT_CLASSES,
+    TYPE_ALIASES,
     LiveVSSClient,
     MockVSSClient,
 )
@@ -311,6 +315,163 @@ def inject_globals():
     return {"client_mode": client_mode()}
 
 
+# ---------------------------------------------------------------------------
+# Agent prompt window: deterministic mock Q&A over the corpus.
+# TODO(phase 2): replace agent_answer with a W&B serverless LLM call
+# (WANDB_* env vars) over the matched captions, cached by question so
+# identical questions return identical answers. Evidence rows stay the
+# same: rank the findings the answer cites and show their clips.
+# ---------------------------------------------------------------------------
+
+RISK_INTENT_WORDS = ("worst", "repaint", "priorit", "risk", "first",
+                     "urgent", "schedule")
+
+
+def _detect_all(question, aliases, valid):
+    """Every canonical value whose alias phrases occur in the question."""
+    found = set()
+    for phrase, canonical in aliases.items():
+        if canonical in valid and phrase in question:
+            found.add(canonical)
+    return found
+
+
+def _detect_street(question, findings):
+    """Corpus street name mentioned in the question, or None."""
+    streets = sorted({f["street"] for f in findings if f["street"] != "unknown"})
+    for street in streets:
+        if street.lower() in question:
+            return street
+    return None
+
+
+def _evidence(findings, limit=5):
+    """Top findings backing an answer: worst condition, then confidence."""
+    ordered = sorted(findings,
+                     key=lambda f: (CONDITION_RISK_WEIGHTS[f["condition"]],
+                                    f["confidence"]),
+                     reverse=True)
+    return [{
+        "type": f["type"],
+        "condition": f["condition"],
+        "street": f["street"],
+        "camera_id": f["camera_id"],
+        "captured_at": f["captured_at"],
+        "start_sec": f["start_sec"],
+        "note": f["note"],
+    } for f in ordered[:limit]]
+
+
+def _street_summary(street, street_findings):
+    """Answer fragment summarizing one street's findings."""
+    total = len(street_findings)
+    non_intact = sum(1 for f in street_findings
+                     if f["condition"] in NON_INTACT_CONDITIONS)
+    risk = sum(CONDITION_RISK_WEIGHTS[f["condition"]] * f["person_count"]
+               for f in street_findings)
+    high_ped = sum(1 for f in street_findings if f["high_pedestrian"])
+    return (
+        "{street} has {total} marking sightings across {segments} "
+        "segments; {non_intact} are non-intact ({pct:.0f}%) and {high_ped} "
+        "sit on high-pedestrian-exposure segments. Street risk score is "
+        "{risk:.0f} (marking condition weighted by pedestrian exposure)."
+    ).format(street=street, total=total,
+             segments=len({f["id"].rsplit("-", 1)[0]
+                           for f in street_findings}),
+             non_intact=non_intact,
+             pct=100.0 * non_intact / total if total else 0.0,
+             high_ped=high_ped, risk=risk)
+
+
+def _risk_ranking(matched, limit=3):
+    """Street names ranked by risk, formatted for an answer sentence."""
+    by_street = {}
+    for finding in matched:
+        street = finding["street"]
+        if street == "unknown":
+            continue
+        by_street[street] = by_street.get(street, 0) + (
+            CONDITION_RISK_WEIGHTS[finding["condition"]]
+            * finding["person_count"])
+    ranked = sorted(by_street.items(), key=lambda kv: (-kv[1], kv[0]))
+    return ", ".join("{} (risk {:.0f})".format(street, risk)
+                     for street, risk in ranked[:limit])
+
+
+def agent_answer(question, findings, person_threshold):
+    """Deterministic mock answer to a plain-language audit question.
+
+    Intent detection: street name > marking type > condition > risk ranking,
+    composed over the same findings the board and report show. Phase 2
+    replaces this with a W&B serverless LLM over the matched captions.
+    """
+    question = " ".join(question.lower().split())
+    street = _detect_street(question, findings)
+    marking_types = _detect_all(question, TYPE_ALIASES, MARKING_TYPES)
+    conditions = _detect_all(question, CONDITION_ALIASES, CONDITIONS)
+    risk_intent = any(word in question for word in RISK_INTENT_WORDS)
+
+    for finding in findings:
+        finding["high_pedestrian"] = finding["person_count"] > person_threshold
+
+    matched = findings
+    if street:
+        matched = [f for f in matched if f["street"] == street]
+    if marking_types:
+        matched = [f for f in matched if f["type"] in marking_types]
+    if conditions:
+        matched = [f for f in matched if f["condition"] in conditions]
+
+    if matched:
+        non_intact = sum(1 for f in matched
+                         if f["condition"] in NON_INTACT_CONDITIONS)
+        parts = []
+        if street:
+            parts.append(_street_summary(street, matched))
+        elif risk_intent and not (marking_types or conditions):
+            parts.append("By risk (marking condition weighted by pedestrian "
+                         "exposure), the streets to repaint first are: {}."
+                         .format(_risk_ranking(matched)))
+        else:
+            scope_bits = []
+            for marking_type in sorted(marking_types):
+                scope_bits.append(marking_type.replace("_", " "))
+            for condition in sorted(conditions):
+                scope_bits.append(condition.replace("_", " "))
+            scope = " / ".join(scope_bits) if scope_bits else "the corpus"
+            lead = "The audit has {total} sighting{s} in the current corpus" \
+                if not scope_bits else \
+                "The audit has {total} {scope} sighting{s} in the current corpus"
+            parts.append((lead + ", {non_intact} of them non-intact.").format(
+                total=len(matched), scope=scope,
+                s="" if len(matched) == 1 else "s", non_intact=non_intact))
+            by_street = {}
+            for finding in matched:
+                if finding["street"] != "unknown":
+                    by_street.setdefault(finding["street"], []).append(finding)
+            if by_street:
+                ranked = sorted(by_street.items(),
+                               key=lambda kv: -len(kv[1]))
+                counts = ", ".join("{} ({})".format(s, len(fs))
+                                   for s, fs in ranked[:3])
+                parts.append("Most of them are on: {}.".format(counts))
+        if risk_intent and not street and (marking_types or conditions):
+            ranked = _risk_ranking(matched, limit=1)
+            if ranked:
+                parts.append("By risk, repaint {} first.".format(ranked))
+        return " ".join(parts), _evidence(matched)
+
+    # Nothing matched the detected intent.
+    if street:
+        return ("No sightings of {} were attributed in this corpus. The "
+                "street may appear only with unknown attribution -- check "
+                "the unattributed stat on the audit report.").format(street), []
+    return ("I could not match that to the audit data. Ask me about a "
+            "street (e.g. Don Mills Rd), a marking type (crosswalk, stop "
+            "line, bus box...), a condition (faded, partial, missing), or "
+            "which street to repaint first."), []
+
+
 @app.route("/health")
 def health():
     return jsonify({"status": "ok"})
@@ -327,6 +488,43 @@ def api_findings():
         "findings": findings,
         "stats": compute_stats(findings),
         "histogram": compute_histogram(findings),
+    })
+
+
+@app.route("/ask")
+def ask():
+    cameras, streets = filter_options()
+    attributed = [s for s in streets if s != "unknown"]
+    suggestions = [
+        "Which street should be repainted first?",
+        "Where are crosswalks faded or missing?",
+    ]
+    if attributed:
+        suggestions.append("How is {} doing?".format(attributed[0]))
+    if len(attributed) > 1:
+        suggestions.append(
+            "What did the audit find on {}?".format(attributed[-1]))
+    return render_template(
+        "ask.html",
+        suggestions=suggestions,
+        ask_data={"mode": client_mode(), "cond_class": COND_CLASS},
+    )
+
+
+@app.route("/api/ask", methods=["POST"])
+def api_ask():
+    body = request.get_json(silent=True) or {}
+    question = (body.get("question") or "").strip()
+    if not question:
+        return jsonify({"error": "question is required"}), 400
+    response = get_client().search(dict(NO_FILTERS))
+    findings = flatten_findings(response)
+    answer, evidence = agent_answer(question, findings,
+                                     person_median(response))
+    return jsonify({
+        "answer": answer,
+        "evidence": evidence,
+        "mode": client_mode(),
     })
 
 

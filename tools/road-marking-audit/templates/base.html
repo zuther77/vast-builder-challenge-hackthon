@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Road Marking Audit{% endblock %}</title>
+  <title>{% block title %}StreetAudit{% endblock %}</title>
   <style>
     :root {
       --bg: #10151c;
@@ -35,7 +35,8 @@
       background: var(--panel);
       border-bottom: 1px solid var(--line);
     }
-    header.top .brand { font-size: 17px; font-weight: 600; }
+    header.top .brand { font-size: 17px; font-weight: 600; letter-spacing: 0.01em; }
+    header.top .brand b { color: var(--accent); font-weight: 600; }
     header.top nav { display: flex; gap: 16px; }
     header.top nav a { color: var(--muted); padding: 4px 2px; }
     header.top nav a.active,
@@ -183,15 +184,116 @@
     table.findings { width: 100%; border-collapse: collapse; font-size: 13px; }
     table.findings th, table.findings td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
     table.findings th { color: var(--muted); font-weight: 500; background: var(--panel-2); }
+    /* Agent prompt window */
+    :is(select, button, textarea, input):focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .ask-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ask-log {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ask-log .placeholder { color: var(--muted); text-align: center; padding: 48px 12px; }
+    .ask-msg {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      line-height: 1.55;
+      max-width: 860px;
+    }
+    .ask-msg.user {
+      align-self: flex-end;
+      background: var(--panel-2);
+      max-width: 70%;
+    }
+    .ask-msg.agent { background: var(--panel); }
+    .ask-msg .tag {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 4px;
+    }
+    .ask-msg .tag .mock { color: var(--muted); }
+    .ask-msg .evidence {
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+      border-left: 3px solid var(--accent);
+    }
+    .ask-msg .evidence li {
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+    }
+    .ask-msg .evidence li:last-child { border-bottom: none; }
+    .ask-msg .evidence .when { color: var(--muted); font-size: 12px; }
+    .typing { display: inline-flex; gap: 4px; align-items: center; padding: 4px 0; }
+    .typing i {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--muted);
+      animation: ask-blink 1s infinite ease-in-out;
+    }
+    .typing i:nth-child(2) { animation-delay: 0.15s; }
+    .typing i:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes ask-blink { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .typing i { animation: none; } }
+    .suggestions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .suggestions button {
+      border-radius: 14px;
+      padding: 6px 14px;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 200ms, color 200ms;
+    }
+    .suggestions button:hover { border-color: var(--accent); color: var(--accent); }
+    form.ask-form fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0; }
+    form.ask-form legend { font-size: 12px; color: var(--muted); padding: 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+    form.ask-form textarea {
+      width: 100%;
+      min-height: 64px;
+      resize: vertical;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font: inherit;
+    }
+    .ask-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+    .ask-actions .hint-text { font-size: 12px; color: var(--muted); }
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0c141d;
+      font-weight: 600;
+      min-height: 32px;
+      padding: 5px 18px;
+      cursor: pointer;
+      transition: filter 200ms;
+    }
+    button.primary:hover { filter: brightness(1.1); }
+    button.primary:disabled { opacity: 0.5; cursor: default; }
     footer.bottom { color: var(--muted); font-size: 12px; text-align: center; padding: 24px; border-top: 1px solid var(--line); margin-top: 32px; }
   </style>
 </head>
 <body>
   <header class="top">
-    <span class="brand">Road Marking Audit</span>
+    <span class="brand">Street<b>Audit</b></span>
     <nav>
       <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Findings board</a>
       <a href="/report" class="{{ 'active' if request.path == '/report' else '' }}">Audit report</a>
+      <a href="/ask" class="{{ 'active' if request.path == '/ask' else '' }}">Ask the agent</a>
     </nav>
     <span class="spacer"></span>
     <span class="mode">backend: {{ client_mode }}</span>
@@ -200,8 +302,9 @@
     {% block content %}{% endblock %}
   </main>
   <footer class="bottom">
-    Road Marking Audit Dashboard for the VAST Builders Challenge. Mock data
-    mirrors the VSS search API; swap the backend with the VSS_CLIENT env var.
+    StreetAudit -- road marking audit dashboard for the VAST Builders
+    Challenge. Mock data mirrors the VSS search API; swap the backend with
+    the VSS_CLIENT env var.
   </footer>
 </body>
 </html>
